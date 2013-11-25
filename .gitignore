@@ -1,0 +1,66 @@
+# git ignore file
+# Ignore dot files, except git stuff, .htaccess, etc
+.*
+!.nuget
+!.git*
+!.ht*
+
+# Ignore poop some software leaves in folders
+Thumbs.db
+__*
+
+# Ignore "backup" copies because they are almost certainly redundant
+*.bak
+*.BAK
+*.back
+*.BACK
+*.backup
+*.BACKUP
+*.old
+*.OLD
+Copy of *
+*~
+*.orig
+
+# Ignore Komodo project files (most of us aren't using Komodo)
+*.kpf
+
+# Ignore log, lock, and temp files
+*.log*
+*.LOG
+*.lck
+*.LCK
+*.lock
+*.LOCK
+*.tmp
+*.TMP
+*.temp
+*.TEMP
+logs
+debug
+
+# .NET stuff
+[Bb]in
+BIN
+[Oo]bj
+OBJ
+*.[Cc]ache
+*.e2e
+*.pdb
+*.pidb
+*.suo
+*.user
+*.userprefs
+_ReSharper*
+*.cd
+packages
+
+[Tt]est[Rr]esults
+TESTRESULTS
+*.ncrunchproject
+*.ncrunchsolution
+
+# Better to unzip and include the contents, using gits compression tools.
+*.tar
+*.7z
+
