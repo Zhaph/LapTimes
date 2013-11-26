@@ -236,8 +236,11 @@ namespace LapTimes.Models
         partial void OnIdChanged();
     
         /// <summary>
-        /// No Metadata Documentation available.
+        /// Name of Class
         /// </summary>
+        /// <LongDescription>
+        /// The class the racer is representing
+        /// </LongDescription>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
         public global::System.String Name
@@ -479,8 +482,11 @@ namespace LapTimes.Models
         partial void OnIdChanged();
     
         /// <summary>
-        /// No Metadata Documentation available.
+        /// League Name
         /// </summary>
+        /// <LongDescription>
+        /// The league the racer is in.
+        /// </LongDescription>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
         public global::System.String Name
@@ -503,8 +509,11 @@ namespace LapTimes.Models
         partial void OnNameChanged();
     
         /// <summary>
-        /// No Metadata Documentation available.
+        /// League description
         /// </summary>
+        /// <LongDescription>
+        /// The age range of the league
+        /// </LongDescription>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
         public global::System.String Description

@@ -1,54 +1,111 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data.Objects;
 using System.Linq;
-using System.Web;
 
 namespace LapTimes.Models
 {
   public class LapTimeRepository : ILapTimeRepository
   {
-    private readonly LapTimesContainer _container = new LapTimesContainer();
+    private readonly LapTimesContext _context = new LapTimesContext();
 
     public IOrderedQueryable<League> GetCurrentLeaderBoards()
     {
-      ObjectQuery<League> leagues = _container.Leagues.Include("Racer");
+      var leagues = _context.Leagues.Include("Racer");
 
       return leagues;
     }
 
+    public void AddLeague(League league)
+    {
+      throw new NotImplementedException();
+    }
+
+    public void GetClass(string name)
+    {
+      throw new NotImplementedException();
+    }
+
+    public void GetClass(int id)
+    {
+      throw new NotImplementedException();
+    }
+
+    public void AddClass(ClassName className)
+    {
+      throw new NotImplementedException();
+    }
+
+    public IOrderedQueryable<ClassName> GetClasses()
+    {
+      throw new NotImplementedException();
+    }
+
     public Race CurrentRace()
     {
-      ObjectQuery<Race> races = loadRaces();
+      IOrderedQueryable<Race> races = loadRaces();
 
       return (from race in races where !race.IsComplete select race).FirstOrDefault();
     }
 
     public Race GetRace(int id)
     {
-      ObjectQuery<Race> races = loadRaces();
+      IOrderedQueryable<Race> races = loadRaces();
 
-      return races.FirstOrDefault(r => r.Id == id);
+      return races.FirstOrDefault(r => r.RaceId == id);
     }
 
-    public CurrentRacer GetWinner(int raceId)
+    public void AddRace(Race race)
+    {
+      throw new NotImplementedException();
+    }
+
+    public void DeleteRace(int id)
+    {
+      throw new NotImplementedException();
+    }
+
+    public void DeleteRace(Race race)
+    {
+      throw new NotImplementedException();
+    }
+
+    public CurrentDriver GetWinner(int raceId)
     {
       return GetWinner(GetRace(raceId));
     }
 
-    public CurrentRacer GetWinner(Race race)
+    public CurrentDriver GetWinner(Race race)
     {
       if (race.IsComplete)
       {
-        return race.CurrentRacers.OrderBy(cr => cr.RaceTime).First();
+        return race.Racers.OrderBy(cr => cr.RawRaceTime).First();
       }
 
       return null;
     }
 
-    private ObjectQuery<Race> loadRaces()
+    public Racer GetRacer(int id)
     {
-      return _container.Races.Include("CurrentRacers").Include("Leagues").Include("ClassNames");
+      throw new NotImplementedException();
+    }
+
+    public IOrderedQueryable<Racer> GetRacers(string nameStartsWith)
+    {
+      throw new NotImplementedException();
+    }
+
+    public void AddRacer(Racer racer)
+    {
+      throw new NotImplementedException();
+    }
+
+    public void Save()
+    {
+      throw new NotImplementedException();
+    }
+
+    private IOrderedQueryable<Race> loadRaces()
+    {
+      return _context.Races.Include("Racers").Include("Leagues").Include("ClassNames");
     }
   }
 }

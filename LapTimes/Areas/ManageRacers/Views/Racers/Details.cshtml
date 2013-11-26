@@ -17,10 +17,10 @@
     </div>
 
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.BestTime)
+         @Html.DisplayNameFor(model => model.RawBestTime)
     </div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.BestTime)
+        @Html.DisplayFor(model => model.RawBestTime)
     </div>
 
     <div class="display-label">
@@ -38,6 +38,6 @@
     </div>
 </fieldset>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) |
+    @Html.ActionLink("Edit", "Edit", new { id=Model.RacerId }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

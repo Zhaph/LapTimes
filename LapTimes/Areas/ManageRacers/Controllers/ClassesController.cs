@@ -11,7 +11,7 @@ namespace LapTimes.Areas.ManageRacers.Controllers
 {
     public class ClassesController : Controller
     {
-        private LapTimesContainer db = new LapTimesContainer();
+        private LapTimesContext db = new LapTimesContext();
 
         //
         // GET: /ManageRacers/Classes/
@@ -26,7 +26,7 @@ namespace LapTimes.Areas.ManageRacers.Controllers
 
         public ActionResult Details(int id = 0)
         {
-            ClassName classname = db.ClassNames.Single(c => c.Id == id);
+            ClassName classname = db.ClassNames.Find(id);
             if (classname == null)
             {
                 return HttpNotFound();
@@ -50,7 +50,7 @@ namespace LapTimes.Areas.ManageRacers.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.ClassNames.AddObject(classname);
+                db.ClassNames.Add(classname);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -63,7 +63,7 @@ namespace LapTimes.Areas.ManageRacers.Controllers
 
         public ActionResult Edit(int id = 0)
         {
-            ClassName classname = db.ClassNames.Single(c => c.Id == id);
+            ClassName classname = db.ClassNames.Find(id);
             if (classname == null)
             {
                 return HttpNotFound();
@@ -79,8 +79,7 @@ namespace LapTimes.Areas.ManageRacers.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.ClassNames.Attach(classname);
-                db.ObjectStateManager.ChangeObjectState(classname, EntityState.Modified);
+                db.Entry(classname).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -92,7 +91,7 @@ namespace LapTimes.Areas.ManageRacers.Controllers
 
         public ActionResult Delete(int id = 0)
         {
-            ClassName classname = db.ClassNames.Single(c => c.Id == id);
+            ClassName classname = db.ClassNames.Find(id);
             if (classname == null)
             {
                 return HttpNotFound();
@@ -106,8 +105,8 @@ namespace LapTimes.Areas.ManageRacers.Controllers
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id)
         {
-            ClassName classname = db.ClassNames.Single(c => c.Id == id);
-            db.ClassNames.DeleteObject(classname);
+            ClassName classname = db.ClassNames.Find(id);
+            db.ClassNames.Remove(classname);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

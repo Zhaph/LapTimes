@@ -184,8 +184,18 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="Name" Nullable="false" />
-          <Property Type="String" Name="Description" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" >
+            <Documentation>
+              <Summary>League Name</Summary>
+              <LongDescription>The league the racer is in.</LongDescription>
+            </Documentation>
+          </Property>
+          <Property Type="String" Name="Description" Nullable="false" >
+            <Documentation>
+              <Summary>League description</Summary>
+              <LongDescription>The age range of the league</LongDescription>
+            </Documentation>
+          </Property>
           <NavigationProperty Name="Racers" Relationship="LapTimes.RacerLeague" FromRole="League" ToRole="Racer" />
         </EntityType>
         <EntityType Name="ClassName">
@@ -193,7 +203,12 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="Name" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" >
+            <Documentation>
+              <Summary>Name of Class</Summary>
+              <LongDescription>The class the racer is representing</LongDescription>
+            </Documentation>
+          </Property>
           <NavigationProperty Name="Racers" Relationship="LapTimes.RacerClassName" FromRole="ClassName" ToRole="Racer" />
         </EntityType>
         <Association Name="RacerClassName">

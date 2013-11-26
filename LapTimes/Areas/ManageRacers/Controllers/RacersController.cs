@@ -11,14 +11,14 @@ namespace LapTimes.Areas.ManageRacers.Controllers
 {
     public class RacersController : Controller
     {
-        private LapTimesContainer db = new LapTimesContainer();
+        private LapTimesContext db = new LapTimesContext();
 
         //
         // GET: /ManageRacers/Racers/
 
         public ActionResult Index()
         {
-            var racers = db.Racers.Include("ClassName").Include("League");
+            var racers = db.Racers.Include(r => r.ClassName).Include(r => r.League);
             return View(racers.ToList());
         }
 
@@ -27,7 +27,7 @@ namespace LapTimes.Areas.ManageRacers.Controllers
 
         public ActionResult Details(int id = 0)
         {
-            Racer racer = db.Racers.Single(r => r.Id == id);
+            Racer racer = db.Racers.Find(id);
             if (racer == null)
             {
                 return HttpNotFound();
@@ -40,8 +40,8 @@ namespace LapTimes.Areas.ManageRacers.Controllers
 
         public ActionResult Create()
         {
-            ViewBag.ClassNameId = new SelectList(db.ClassNames, "Id", "Name");
-            ViewBag.LeagueId = new SelectList(db.Leagues, "Id", "Name");
+            ViewBag.ClassId = new SelectList(db.ClassNames, "ClassId", "Name");
+            ViewBag.LeagueId = new SelectList(db.Leagues, "LeagueId", "Name");
             return View();
         }
 
@@ -53,13 +53,13 @@ namespace LapTimes.Areas.ManageRacers.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Racers.AddObject(racer);
+                db.Racers.Add(racer);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.ClassNameId = new SelectList(db.ClassNames, "Id", "Name", racer.ClassNameId);
-            ViewBag.LeagueId = new SelectList(db.Leagues, "Id", "Name", racer.LeagueId);
+            ViewBag.ClassId = new SelectList(db.ClassNames, "ClassId", "Name", racer.ClassId);
+            ViewBag.LeagueId = new SelectList(db.Leagues, "LeagueId", "Name", racer.LeagueId);
             return View(racer);
         }
 
@@ -68,13 +68,13 @@ namespace LapTimes.Areas.ManageRacers.Controllers
 
         public ActionResult Edit(int id = 0)
         {
-            Racer racer = db.Racers.Single(r => r.Id == id);
+            Racer racer = db.Racers.Find(id);
             if (racer == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.ClassNameId = new SelectList(db.ClassNames, "Id", "Name", racer.ClassNameId);
-            ViewBag.LeagueId = new SelectList(db.Leagues, "Id", "Name", racer.LeagueId);
+            ViewBag.ClassId = new SelectList(db.ClassNames, "ClassId", "Name", racer.ClassId);
+            ViewBag.LeagueId = new SelectList(db.Leagues, "LeagueId", "Name", racer.LeagueId);
             return View(racer);
         }
 
@@ -86,13 +86,12 @@ namespace LapTimes.Areas.ManageRacers.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Racers.Attach(racer);
-                db.ObjectStateManager.ChangeObjectState(racer, EntityState.Modified);
+                db.Entry(racer).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.ClassNameId = new SelectList(db.ClassNames, "Id", "Name", racer.ClassNameId);
-            ViewBag.LeagueId = new SelectList(db.Leagues, "Id", "Name", racer.LeagueId);
+            ViewBag.ClassId = new SelectList(db.ClassNames, "ClassId", "Name", racer.ClassId);
+            ViewBag.LeagueId = new SelectList(db.Leagues, "LeagueId", "Name", racer.LeagueId);
             return View(racer);
         }
 
@@ -101,7 +100,7 @@ namespace LapTimes.Areas.ManageRacers.Controllers
 
         public ActionResult Delete(int id = 0)
         {
-            Racer racer = db.Racers.Single(r => r.Id == id);
+            Racer racer = db.Racers.Find(id);
             if (racer == null)
             {
                 return HttpNotFound();
@@ -115,8 +114,8 @@ namespace LapTimes.Areas.ManageRacers.Controllers
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id)
         {
-            Racer racer = db.Racers.Single(r => r.Id == id);
-            db.Racers.DeleteObject(racer);
+            Racer racer = db.Racers.Find(id);
+            db.Racers.Remove(racer);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

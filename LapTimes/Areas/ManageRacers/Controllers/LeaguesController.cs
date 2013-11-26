@@ -11,7 +11,7 @@ namespace LapTimes.Areas.ManageRacers.Controllers
 {
     public class LeaguesController : Controller
     {
-        private LapTimesContainer db = new LapTimesContainer();
+        private LapTimesContext db = new LapTimesContext();
 
         //
         // GET: /ManageRacers/Leagues/
@@ -26,7 +26,7 @@ namespace LapTimes.Areas.ManageRacers.Controllers
 
         public ActionResult Details(int id = 0)
         {
-            League league = db.Leagues.Single(l => l.Id == id);
+            League league = db.Leagues.Find(id);
             if (league == null)
             {
                 return HttpNotFound();
@@ -50,7 +50,7 @@ namespace LapTimes.Areas.ManageRacers.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Leagues.AddObject(league);
+                db.Leagues.Add(league);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -63,7 +63,7 @@ namespace LapTimes.Areas.ManageRacers.Controllers
 
         public ActionResult Edit(int id = 0)
         {
-            League league = db.Leagues.Single(l => l.Id == id);
+            League league = db.Leagues.Find(id);
             if (league == null)
             {
                 return HttpNotFound();
@@ -79,8 +79,7 @@ namespace LapTimes.Areas.ManageRacers.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Leagues.Attach(league);
-                db.ObjectStateManager.ChangeObjectState(league, EntityState.Modified);
+                db.Entry(league).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -92,7 +91,7 @@ namespace LapTimes.Areas.ManageRacers.Controllers
 
         public ActionResult Delete(int id = 0)
         {
-            League league = db.Leagues.Single(l => l.Id == id);
+            League league = db.Leagues.Find(id);
             if (league == null)
             {
                 return HttpNotFound();
@@ -106,8 +105,8 @@ namespace LapTimes.Areas.ManageRacers.Controllers
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id)
         {
-            League league = db.Leagues.Single(l => l.Id == id);
-            db.Leagues.DeleteObject(league);
+            League league = db.Leagues.Find(id);
+            db.Leagues.Remove(league);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
