@@ -20,8 +20,8 @@ using System.Xml.Serialization;
 #region EDM Relationship Metadata
 
 [assembly: EdmRelationshipAttribute("LapTimes", "RaceCurrentRacer", "Race", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(LapTimes.Models.Race), "CurrentRacer", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(LapTimes.Models.CurrentRacer), true)]
-[assembly: EdmRelationshipAttribute("LapTimes", "RacerLeague", "Racer", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(LapTimes.Models.Racer), "League", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(LapTimes.Models.League))]
 [assembly: EdmRelationshipAttribute("LapTimes", "RacerClassName", "Racer", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(LapTimes.Models.Racer), "ClassName", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(LapTimes.Models.ClassName), true)]
+[assembly: EdmRelationshipAttribute("LapTimes", "RacerLeague", "Racer", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(LapTimes.Models.Racer), "League", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(LapTimes.Models.League), true)]
 
 #endregion
 
@@ -108,22 +108,6 @@ namespace LapTimes.Models
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        public ObjectSet<ClassName> ClassNames
-        {
-            get
-            {
-                if ((_ClassNames == null))
-                {
-                    _ClassNames = base.CreateObjectSet<ClassName>("ClassNames");
-                }
-                return _ClassNames;
-            }
-        }
-        private ObjectSet<ClassName> _ClassNames;
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
         public ObjectSet<League> Leagues
         {
             get
@@ -136,6 +120,22 @@ namespace LapTimes.Models
             }
         }
         private ObjectSet<League> _Leagues;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<ClassName> ClassNames
+        {
+            get
+            {
+                if ((_ClassNames == null))
+                {
+                    _ClassNames = base.CreateObjectSet<ClassName>("ClassNames");
+                }
+                return _ClassNames;
+            }
+        }
+        private ObjectSet<ClassName> _ClassNames;
 
         #endregion
 
@@ -158,19 +158,19 @@ namespace LapTimes.Models
         }
     
         /// <summary>
-        /// Deprecated Method for adding a new object to the ClassNames EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
-        /// </summary>
-        public void AddToClassNames(ClassName className)
-        {
-            base.AddObject("ClassNames", className);
-        }
-    
-        /// <summary>
         /// Deprecated Method for adding a new object to the Leagues EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
         public void AddToLeagues(League league)
         {
             base.AddObject("Leagues", league);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the ClassNames EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToClassNames(ClassName className)
+        {
+            base.AddObject("ClassNames", className);
         }
 
         #endregion
@@ -195,10 +195,12 @@ namespace LapTimes.Models
         /// Create a new ClassName object.
         /// </summary>
         /// <param name="id">Initial value of the Id property.</param>
-        public static ClassName CreateClassName(global::System.String id)
+        /// <param name="name">Initial value of the Name property.</param>
+        public static ClassName CreateClassName(global::System.Int32 id, global::System.String name)
         {
             ClassName className = new ClassName();
             className.Id = id;
+            className.Name = name;
             return className;
         }
 
@@ -211,7 +213,7 @@ namespace LapTimes.Models
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.String Id
+        public global::System.Int32 Id
         {
             get
             {
@@ -223,15 +225,39 @@ namespace LapTimes.Models
                 {
                     OnIdChanging(value);
                     ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value, false);
+                    _Id = StructuralObject.SetValidValue(value);
                     ReportPropertyChanged("Id");
                     OnIdChanged();
                 }
             }
         }
-        private global::System.String _Id;
-        partial void OnIdChanging(global::System.String value);
+        private global::System.Int32 _Id;
+        partial void OnIdChanging(global::System.Int32 value);
         partial void OnIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Name
+        {
+            get
+            {
+                return _Name;
+            }
+            set
+            {
+                OnNameChanging(value);
+                ReportPropertyChanging("Name");
+                _Name = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("Name");
+                OnNameChanged();
+            }
+        }
+        private global::System.String _Name;
+        partial void OnNameChanging(global::System.String value);
+        partial void OnNameChanged();
 
         #endregion
 
@@ -281,15 +307,17 @@ namespace LapTimes.Models
         /// <param name="name">Initial value of the Name property.</param>
         /// <param name="bestTime">Initial value of the BestTime property.</param>
         /// <param name="classNameId">Initial value of the ClassNameId property.</param>
+        /// <param name="leagueId">Initial value of the LeagueId property.</param>
         /// <param name="raceId">Initial value of the RaceId property.</param>
         /// <param name="raceTime">Initial value of the RaceTime property.</param>
-        public static CurrentRacer CreateCurrentRacer(global::System.Int32 id, global::System.String name, global::System.Int32 bestTime, global::System.String classNameId, global::System.Int32 raceId, global::System.Int32 raceTime)
+        public static CurrentRacer CreateCurrentRacer(global::System.Int32 id, global::System.String name, global::System.Int32 bestTime, global::System.Int32 classNameId, global::System.Int32 leagueId, global::System.Int32 raceId, global::System.Int32 raceTime)
         {
             CurrentRacer currentRacer = new CurrentRacer();
             currentRacer.Id = id;
             currentRacer.Name = name;
             currentRacer.BestTime = bestTime;
             currentRacer.ClassNameId = classNameId;
+            currentRacer.LeagueId = leagueId;
             currentRacer.RaceId = raceId;
             currentRacer.RaceTime = raceTime;
             return currentRacer;
@@ -409,11 +437,13 @@ namespace LapTimes.Models
         /// </summary>
         /// <param name="id">Initial value of the Id property.</param>
         /// <param name="name">Initial value of the Name property.</param>
-        public static League CreateLeague(global::System.Int32 id, global::System.String name)
+        /// <param name="description">Initial value of the Description property.</param>
+        public static League CreateLeague(global::System.Int32 id, global::System.String name, global::System.String description)
         {
             League league = new League();
             league.Id = id;
             league.Name = name;
+            league.Description = description;
             return league;
         }
 
@@ -471,6 +501,30 @@ namespace LapTimes.Models
         private global::System.String _Name;
         partial void OnNameChanging(global::System.String value);
         partial void OnNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Description
+        {
+            get
+            {
+                return _Description;
+            }
+            set
+            {
+                OnDescriptionChanging(value);
+                ReportPropertyChanging("Description");
+                _Description = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("Description");
+                OnDescriptionChanged();
+            }
+        }
+        private global::System.String _Description;
+        partial void OnDescriptionChanging(global::System.String value);
+        partial void OnDescriptionChanged();
 
         #endregion
 
@@ -517,10 +571,14 @@ namespace LapTimes.Models
         /// Create a new Race object.
         /// </summary>
         /// <param name="id">Initial value of the Id property.</param>
-        public static Race CreateRace(global::System.Int32 id)
+        /// <param name="startTime">Initial value of the StartTime property.</param>
+        /// <param name="endTime">Initial value of the EndTime property.</param>
+        public static Race CreateRace(global::System.Int32 id, global::System.DateTime startTime, global::System.DateTime endTime)
         {
             Race race = new Race();
             race.Id = id;
+            race.StartTime = startTime;
+            race.EndTime = endTime;
             return race;
         }
 
@@ -578,6 +636,54 @@ namespace LapTimes.Models
         private global::System.Boolean _IsComplete = false;
         partial void OnIsCompleteChanging(global::System.Boolean value);
         partial void OnIsCompleteChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.DateTime StartTime
+        {
+            get
+            {
+                return _StartTime;
+            }
+            set
+            {
+                OnStartTimeChanging(value);
+                ReportPropertyChanging("StartTime");
+                _StartTime = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("StartTime");
+                OnStartTimeChanged();
+            }
+        }
+        private global::System.DateTime _StartTime;
+        partial void OnStartTimeChanging(global::System.DateTime value);
+        partial void OnStartTimeChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.DateTime EndTime
+        {
+            get
+            {
+                return _EndTime;
+            }
+            set
+            {
+                OnEndTimeChanging(value);
+                ReportPropertyChanging("EndTime");
+                _EndTime = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("EndTime");
+                OnEndTimeChanged();
+            }
+        }
+        private global::System.DateTime _EndTime;
+        partial void OnEndTimeChanging(global::System.DateTime value);
+        partial void OnEndTimeChanged();
 
         #endregion
 
@@ -628,13 +734,15 @@ namespace LapTimes.Models
         /// <param name="name">Initial value of the Name property.</param>
         /// <param name="bestTime">Initial value of the BestTime property.</param>
         /// <param name="classNameId">Initial value of the ClassNameId property.</param>
-        public static Racer CreateRacer(global::System.Int32 id, global::System.String name, global::System.Int32 bestTime, global::System.String classNameId)
+        /// <param name="leagueId">Initial value of the LeagueId property.</param>
+        public static Racer CreateRacer(global::System.Int32 id, global::System.String name, global::System.Int32 bestTime, global::System.Int32 classNameId, global::System.Int32 leagueId)
         {
             Racer racer = new Racer();
             racer.Id = id;
             racer.Name = name;
             racer.BestTime = bestTime;
             racer.ClassNameId = classNameId;
+            racer.LeagueId = leagueId;
             return racer;
         }
 
@@ -722,7 +830,7 @@ namespace LapTimes.Models
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.String ClassNameId
+        public global::System.Int32 ClassNameId
         {
             get
             {
@@ -732,57 +840,43 @@ namespace LapTimes.Models
             {
                 OnClassNameIdChanging(value);
                 ReportPropertyChanging("ClassNameId");
-                _ClassNameId = StructuralObject.SetValidValue(value, false);
+                _ClassNameId = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("ClassNameId");
                 OnClassNameIdChanged();
             }
         }
-        private global::System.String _ClassNameId;
-        partial void OnClassNameIdChanging(global::System.String value);
+        private global::System.Int32 _ClassNameId;
+        partial void OnClassNameIdChanging(global::System.Int32 value);
         partial void OnClassNameIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 LeagueId
+        {
+            get
+            {
+                return _LeagueId;
+            }
+            set
+            {
+                OnLeagueIdChanging(value);
+                ReportPropertyChanging("LeagueId");
+                _LeagueId = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("LeagueId");
+                OnLeagueIdChanged();
+            }
+        }
+        private global::System.Int32 _LeagueId;
+        partial void OnLeagueIdChanging(global::System.Int32 value);
+        partial void OnLeagueIdChanged();
 
         #endregion
 
     
         #region Navigation Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("LapTimes", "RacerLeague", "League")]
-        public League League
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<League>("LapTimes.RacerLeague", "League").Value;
-            }
-            set
-            {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<League>("LapTimes.RacerLeague", "League").Value = value;
-            }
-        }
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<League> LeagueReference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<League>("LapTimes.RacerLeague", "League");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<League>("LapTimes.RacerLeague", "League", value);
-                }
-            }
-        }
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -818,6 +912,44 @@ namespace LapTimes.Models
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<ClassName>("LapTimes.RacerClassName", "ClassName", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("LapTimes", "RacerLeague", "League")]
+        public League League
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<League>("LapTimes.RacerLeague", "League").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<League>("LapTimes.RacerLeague", "League").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<League> LeagueReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<League>("LapTimes.RacerLeague", "League");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<League>("LapTimes.RacerLeague", "League", value);
                 }
             }
         }

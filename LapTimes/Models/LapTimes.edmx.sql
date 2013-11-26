@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 11/25/2013 23:08:58
+-- Date Created: 11/26/2013 01:14:21
 -- Generated from EDMX file: c:\users\ben.duguid\documents\visual studio 2010\Projects\LapTimes\LapTimes\Models\LapTimes.edmx
 -- --------------------------------------------------
 
@@ -18,16 +18,16 @@ GO
 -- --------------------------------------------------
 
 IF OBJECT_ID(N'[dbo].[FK_RaceCurrentRacer]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Racers1_CurrentRacer] DROP CONSTRAINT [FK_RaceCurrentRacer];
-GO
-IF OBJECT_ID(N'[dbo].[FK_RacerLeague]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Racers1] DROP CONSTRAINT [FK_RacerLeague];
+    ALTER TABLE [dbo].[Racers_CurrentRacer] DROP CONSTRAINT [FK_RaceCurrentRacer];
 GO
 IF OBJECT_ID(N'[dbo].[FK_RacerClassName]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Racers1] DROP CONSTRAINT [FK_RacerClassName];
+    ALTER TABLE [dbo].[Racers] DROP CONSTRAINT [FK_RacerClassName];
+GO
+IF OBJECT_ID(N'[dbo].[FK_RacerLeague]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Racers] DROP CONSTRAINT [FK_RacerLeague];
 GO
 IF OBJECT_ID(N'[dbo].[FK_CurrentRacer_inherits_Racer]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Racers1_CurrentRacer] DROP CONSTRAINT [FK_CurrentRacer_inherits_Racer];
+    ALTER TABLE [dbo].[Racers_CurrentRacer] DROP CONSTRAINT [FK_CurrentRacer_inherits_Racer];
 GO
 
 -- --------------------------------------------------
@@ -37,17 +37,17 @@ GO
 IF OBJECT_ID(N'[dbo].[Races]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Races];
 GO
-IF OBJECT_ID(N'[dbo].[Racers1]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Racers1];
-GO
-IF OBJECT_ID(N'[dbo].[ClassNames]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[ClassNames];
+IF OBJECT_ID(N'[dbo].[Racers]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Racers];
 GO
 IF OBJECT_ID(N'[dbo].[Leagues]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Leagues];
 GO
-IF OBJECT_ID(N'[dbo].[Racers1_CurrentRacer]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Racers1_CurrentRacer];
+IF OBJECT_ID(N'[dbo].[ClassNames]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[ClassNames];
+GO
+IF OBJECT_ID(N'[dbo].[Racers_CurrentRacer]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Racers_CurrentRacer];
 GO
 
 -- --------------------------------------------------
@@ -57,7 +57,9 @@ GO
 -- Creating table 'Races'
 CREATE TABLE [dbo].[Races] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [IsComplete] bit  NOT NULL
+    [IsComplete] bit  NOT NULL,
+    [StartTime] datetime  NOT NULL,
+    [EndTime] datetime  NOT NULL
 );
 GO
 
@@ -66,19 +68,21 @@ CREATE TABLE [dbo].[Racers] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Name] nvarchar(max)  NOT NULL,
     [BestTime] int  NOT NULL,
-    [ClassNameId] nvarchar(max)  NOT NULL,
-    [League_Id] int  NOT NULL
-);
-GO
-
--- Creating table 'ClassNames'
-CREATE TABLE [dbo].[ClassNames] (
-    [Id] nvarchar(max)  NOT NULL
+    [ClassNameId] int  NOT NULL,
+    [LeagueId] int  NOT NULL
 );
 GO
 
 -- Creating table 'Leagues'
 CREATE TABLE [dbo].[Leagues] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Name] nvarchar(max)  NOT NULL,
+    [Description] nvarchar(max)  NOT NULL
+);
+GO
+
+-- Creating table 'ClassNames'
+CREATE TABLE [dbo].[ClassNames] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Name] nvarchar(max)  NOT NULL
 );
@@ -108,15 +112,15 @@ ADD CONSTRAINT [PK_Racers]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [Id] in table 'ClassNames'
-ALTER TABLE [dbo].[ClassNames]
-ADD CONSTRAINT [PK_ClassNames]
-    PRIMARY KEY CLUSTERED ([Id] ASC);
-GO
-
 -- Creating primary key on [Id] in table 'Leagues'
 ALTER TABLE [dbo].[Leagues]
 ADD CONSTRAINT [PK_Leagues]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'ClassNames'
+ALTER TABLE [dbo].[ClassNames]
+ADD CONSTRAINT [PK_ClassNames]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -144,20 +148,6 @@ ON [dbo].[Racers_CurrentRacer]
     ([RaceId]);
 GO
 
--- Creating foreign key on [League_Id] in table 'Racers'
-ALTER TABLE [dbo].[Racers]
-ADD CONSTRAINT [FK_RacerLeague]
-    FOREIGN KEY ([League_Id])
-    REFERENCES [dbo].[Leagues]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-
--- Creating non-clustered index for FOREIGN KEY 'FK_RacerLeague'
-CREATE INDEX [IX_FK_RacerLeague]
-ON [dbo].[Racers]
-    ([League_Id]);
-GO
-
 -- Creating foreign key on [ClassNameId] in table 'Racers'
 ALTER TABLE [dbo].[Racers]
 ADD CONSTRAINT [FK_RacerClassName]
@@ -170,6 +160,20 @@ ADD CONSTRAINT [FK_RacerClassName]
 CREATE INDEX [IX_FK_RacerClassName]
 ON [dbo].[Racers]
     ([ClassNameId]);
+GO
+
+-- Creating foreign key on [LeagueId] in table 'Racers'
+ALTER TABLE [dbo].[Racers]
+ADD CONSTRAINT [FK_RacerLeague]
+    FOREIGN KEY ([LeagueId])
+    REFERENCES [dbo].[Leagues]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_RacerLeague'
+CREATE INDEX [IX_FK_RacerLeague]
+ON [dbo].[Racers]
+    ([LeagueId]);
 GO
 
 -- Creating foreign key on [Id] in table 'Racers_CurrentRacer'

@@ -1,0 +1,43 @@
+﻿@model LapTimes.Models.Racer
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Racer</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Name)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.BestTime)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.BestTime)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.ClassName.Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ClassName.Name)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.League.Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.League.Name)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

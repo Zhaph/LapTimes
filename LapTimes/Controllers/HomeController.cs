@@ -3,18 +3,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using LapTimes.Models;
 
 namespace LapTimes.Controllers
 {
   public class HomeController : Controller
   {
+    private readonly ILapTimeRepository _lapRepo;
 
+    public HomeController(): this (new LapTimeRepository())
+    {
+    }
+
+    public HomeController(ILapTimeRepository lapRepo)
+    {
+      _lapRepo = lapRepo;
+    }
 
     public ActionResult Index()
     {
       ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
 
-
+      ViewBag.Leagues = _lapRepo.GetCurrentLeaderBoards();
 
       return View();
     }

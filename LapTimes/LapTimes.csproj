@@ -163,6 +163,9 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Areas\ManageRacers\Controllers\ClassesController.cs" />
+    <Compile Include="Areas\ManageRacers\Controllers\LeaguesController.cs" />
+    <Compile Include="Areas\ManageRacers\Controllers\RacersController.cs" />
     <Compile Include="Areas\ManageRacers\ManageRacersAreaRegistration.cs" />
     <Compile Include="Areas\ManageRaces\ManageRacesAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -171,6 +174,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\ILapTimeRepository.cs" />
+    <Compile Include="Models\LapTimeRepository.cs" />
     <Compile Include="Models\LapTimes.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -294,7 +299,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\ManageRacers\Controllers\" />
     <Folder Include="Areas\ManageRacers\Models\" />
     <Folder Include="Areas\ManageRacers\Views\Shared\" />
     <Folder Include="Areas\ManageRaces\Controllers\" />
@@ -315,6 +319,51 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\ManageRaces\Views\Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\ManageRacers\Views\Classes\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\ManageRacers\Views\Classes\Details.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\ManageRacers\Views\Classes\Create.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\ManageRacers\Views\Classes\Edit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\ManageRacers\Views\Classes\Delete.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\ManageRacers\Views\Leagues\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\ManageRacers\Views\Leagues\Details.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\ManageRacers\Views\Leagues\Create.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\ManageRacers\Views\Leagues\Edit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\ManageRacers\Views\Leagues\Delete.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\ManageRacers\Views\Racers\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\ManageRacers\Views\Racers\Details.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\ManageRacers\Views\Racers\Create.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\ManageRacers\Views\Racers\Edit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\ManageRacers\Views\Racers\Delete.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

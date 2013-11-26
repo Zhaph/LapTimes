@@ -8,20 +8,20 @@
   <EntityContainer Name="LapTimesStoreContainer">
     <EntitySet Name="Races" EntityType="LapTimes.Store.Races" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Racers" EntityType="LapTimes.Store.Racers" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="ClassNames" EntityType="LapTimes.Store.ClassNames" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Leagues" EntityType="LapTimes.Store.Leagues" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ClassNames" EntityType="LapTimes.Store.ClassNames" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Racers_CurrentRacer" EntityType="LapTimes.Store.Racers_CurrentRacer" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="RaceCurrentRacer" Association="LapTimes.Store.RaceCurrentRacer">
       <End Role="Race" EntitySet="Races" />
       <End Role="CurrentRacer" EntitySet="Racers_CurrentRacer" />
     </AssociationSet>
-    <AssociationSet Name="RacerLeague" Association="LapTimes.Store.RacerLeague">
-      <End Role="Racer" EntitySet="Racers" />
-      <End Role="League" EntitySet="Leagues" />
-    </AssociationSet>
     <AssociationSet Name="RacerClassName" Association="LapTimes.Store.RacerClassName">
       <End Role="Racer" EntitySet="Racers" />
       <End Role="ClassName" EntitySet="ClassNames" />
+    </AssociationSet>
+    <AssociationSet Name="RacerLeague" Association="LapTimes.Store.RacerLeague">
+      <End Role="Racer" EntitySet="Racers" />
+      <End Role="League" EntitySet="Leagues" />
     </AssociationSet>
     <AssociationSet Name="FK_CurrentRacer_inherits_Racer" Association="LapTimes.Store.FK_CurrentRacer_inherits_Racer">
       <End Role="Racer" EntitySet="Racers" />
@@ -34,6 +34,8 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="IsComplete" Type="bit" Nullable="false" DefaultValue="false" />
+    <Property Name="StartTime" Type="datetime" Nullable="false" />
+    <Property Name="EndTime" Type="datetime" Nullable="false" />
   </EntityType>
   <EntityType Name="Racers">
     <Key>
@@ -42,16 +44,18 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
     <Property Name="BestTime" Type="int" Nullable="false" />
-    <Property Name="ClassNameId" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="League_Id" Type="int" Nullable="false" />
+    <Property Name="ClassNameId" Type="int" Nullable="false" />
+    <Property Name="LeagueId" Type="int" Nullable="false" />
   </EntityType>
-  <EntityType Name="ClassNames">
+  <EntityType Name="Leagues">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="nvarchar(max)" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
-  <EntityType Name="Leagues">
+  <EntityType Name="ClassNames">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
@@ -78,18 +82,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="RacerLeague">
-    <End Role="Racer" Type="LapTimes.Store.Racers" Multiplicity="*" />
-    <End Role="League" Type="LapTimes.Store.Leagues" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="League">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Racer">
-        <PropertyRef Name="League_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="RacerClassName">
     <End Role="Racer" Type="LapTimes.Store.Racers" Multiplicity="*" />
     <End Role="ClassName" Type="LapTimes.Store.ClassNames" Multiplicity="1" />
@@ -99,6 +91,18 @@
       </Principal>
       <Dependent Role="Racer">
         <PropertyRef Name="ClassNameId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="RacerLeague">
+    <End Role="Racer" Type="LapTimes.Store.Racers" Multiplicity="*" />
+    <End Role="League" Type="LapTimes.Store.Leagues" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="League">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Racer">
+        <PropertyRef Name="LeagueId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -121,19 +125,19 @@
         <EntityContainer Name="LapTimesContainer" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Races" EntityType="LapTimes.Race" />
           <EntitySet Name="Racers" EntityType="LapTimes.Racer" />
-          <EntitySet Name="ClassNames" EntityType="LapTimes.ClassName" />
           <AssociationSet Name="RaceCurrentRacer" Association="LapTimes.RaceCurrentRacer">
             <End Role="Race" EntitySet="Races" />
             <End Role="CurrentRacer" EntitySet="Racers" />
           </AssociationSet>
           <EntitySet Name="Leagues" EntityType="LapTimes.League" />
-          <AssociationSet Name="RacerLeague" Association="LapTimes.RacerLeague">
-            <End Role="Racer" EntitySet="Racers" />
-            <End Role="League" EntitySet="Leagues" />
-          </AssociationSet>
+          <EntitySet Name="ClassNames" EntityType="LapTimes.ClassName" />
           <AssociationSet Name="RacerClassName" Association="LapTimes.RacerClassName">
             <End Role="Racer" EntitySet="Racers" />
             <End Role="ClassName" EntitySet="ClassNames" />
+          </AssociationSet>
+          <AssociationSet Name="RacerLeague" Association="LapTimes.RacerLeague">
+            <End Role="Racer" EntitySet="Racers" />
+            <End Role="League" EntitySet="Leagues" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Race">
@@ -143,6 +147,8 @@
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="Boolean" Name="IsComplete" Nullable="false" DefaultValue="False" />
           <NavigationProperty Name="CurrentRacers" Relationship="LapTimes.RaceCurrentRacer" FromRole="Race" ToRole="CurrentRacer" />
+          <Property Type="DateTime" Name="StartTime" Nullable="false" />
+          <Property Type="DateTime" Name="EndTime" Nullable="false" />
         </EntityType>
         <EntityType Name="Racer">
           <Key>
@@ -151,16 +157,10 @@
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="Name" Nullable="false" />
           <Property Type="Int32" Name="BestTime" Nullable="false" />
-          <NavigationProperty Name="League" Relationship="LapTimes.RacerLeague" FromRole="Racer" ToRole="League" />
           <NavigationProperty Name="ClassName" Relationship="LapTimes.RacerClassName" FromRole="Racer" ToRole="ClassName" />
-          <Property Type="String" Name="ClassNameId" Nullable="false" />
-        </EntityType>
-        <EntityType Name="ClassName">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Type="String" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <NavigationProperty Name="Racers" Relationship="LapTimes.RacerClassName" FromRole="ClassName" ToRole="Racer" />
+          <Property Type="Int32" Name="ClassNameId" Nullable="false" />
+          <NavigationProperty Name="League" Relationship="LapTimes.RacerLeague" FromRole="Racer" ToRole="League" />
+          <Property Type="Int32" Name="LeagueId" Nullable="false" />
         </EntityType>
         <EntityType Name="CurrentRacer" BaseType="LapTimes.Racer" >
           <NavigationProperty Name="Race" Relationship="LapTimes.RaceCurrentRacer" FromRole="CurrentRacer" ToRole="Race" />
@@ -185,12 +185,17 @@
           </Key>
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="Name" Nullable="false" />
+          <Property Type="String" Name="Description" Nullable="false" />
           <NavigationProperty Name="Racers" Relationship="LapTimes.RacerLeague" FromRole="League" ToRole="Racer" />
         </EntityType>
-        <Association Name="RacerLeague">
-          <End Type="LapTimes.Racer" Role="Racer" Multiplicity="*" />
-          <End Type="LapTimes.League" Role="League" Multiplicity="1" />
-        </Association>
+        <EntityType Name="ClassName">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" />
+          <NavigationProperty Name="Racers" Relationship="LapTimes.RacerClassName" FromRole="ClassName" ToRole="Racer" />
+        </EntityType>
         <Association Name="RacerClassName">
           <End Type="LapTimes.Racer" Role="Racer" Multiplicity="*" />
           <End Type="LapTimes.ClassName" Role="ClassName" Multiplicity="1" />
@@ -200,6 +205,18 @@
             </Principal>
             <Dependent Role="Racer">
               <PropertyRef Name="ClassNameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="RacerLeague">
+          <End Type="LapTimes.Racer" Role="Racer" Multiplicity="*" />
+          <End Type="LapTimes.League" Role="League" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="League">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Racer">
+              <PropertyRef Name="LeagueId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -214,6 +231,8 @@
         <MappingFragment StoreEntitySet="Races">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="IsComplete" ColumnName="IsComplete" />
+          <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+          <ScalarProperty Name="EndTime" ColumnName="EndTime" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -224,6 +243,7 @@
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="BestTime" ColumnName="BestTime" />
           <ScalarProperty Name="ClassNameId" ColumnName="ClassNameId" />
+          <ScalarProperty Name="LeagueId" ColumnName="LeagueId" />
         </MappingFragment>
       </EntityTypeMapping>
       <EntityTypeMapping TypeName="IsTypeOf(LapTimes.CurrentRacer)">
@@ -234,29 +254,23 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="ClassNames">
-      <EntityTypeMapping TypeName="IsTypeOf(LapTimes.ClassName)">
-        <MappingFragment StoreEntitySet="ClassNames">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="Leagues">
       <EntityTypeMapping TypeName="IsTypeOf(LapTimes.League)">
         <MappingFragment StoreEntitySet="Leagues">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <AssociationSetMapping Name="RacerLeague" TypeName="LapTimes.RacerLeague" StoreEntitySet="Racers">
-      <EndProperty Name="League">
-        <ScalarProperty Name="Id" ColumnName="League_Id" />
-      </EndProperty>
-      <EndProperty Name="Racer">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-    </AssociationSetMapping>
+    <EntitySetMapping Name="ClassNames">
+      <EntityTypeMapping TypeName="IsTypeOf(LapTimes.ClassName)">
+        <MappingFragment StoreEntitySet="ClassNames">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>
@@ -276,9 +290,8 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram Name="LapTimes" >
-        <EntityTypeShape EntityType="LapTimes.Race" Width="1.5" PointX="1.625" PointY="1.25" Height="1.4033821614583331" />
+        <EntityTypeShape EntityType="LapTimes.Race" Width="1.5" PointX="1.625" PointY="1.25" Height="1.9802864583333339" />
         <EntityTypeShape EntityType="LapTimes.Racer" Width="1.5" PointX="7" PointY="1.5" Height="1.787985026041667" />
-        <EntityTypeShape EntityType="LapTimes.ClassName" Width="1.5" PointX="9.75" PointY="1.625" Height="1.4033821614583339" />
         <EntityTypeShape EntityType="LapTimes.CurrentRacer" Width="1.5" PointX="4.5" PointY="1.25" Height="1.59568359375" />
         <InheritanceConnector EntityType="LapTimes.CurrentRacer" ManuallyRouted="false" >
           <ConnectorPoint PointX="7" PointY="2.172841796875" />
@@ -288,15 +301,16 @@
           <ConnectorPoint PointX="3.125" PointY="2.047841796875" />
           <ConnectorPoint PointX="4.5" PointY="2.047841796875" />
         </AssociationConnector>
-        <EntityTypeShape EntityType="LapTimes.League" Width="1.5" PointX="9.75" PointY="3.625" Height="1.5956835937499996" />
-        <AssociationConnector Association="LapTimes.RacerLeague">
-          <ConnectorPoint PointX="7.75" PointY="3.672587890625" />
-          <ConnectorPoint PointX="7.75" PointY="4.4466362421875" />
-          <ConnectorPoint PointX="9.75" PointY="4.4466362421875" />
-        </AssociationConnector>
+        <EntityTypeShape EntityType="LapTimes.League" Width="1.5" PointX="9.75" PointY="3.625" Height="1.7879850260416665" />
+        <EntityTypeShape EntityType="LapTimes.ClassName" Width="1.5" PointX="10.875" PointY="1.5" Height="1.4033821614583331" />
         <AssociationConnector Association="LapTimes.RacerClassName">
-          <ConnectorPoint PointX="8.5" PointY="2.3266910807291667" />
-          <ConnectorPoint PointX="9.75" PointY="2.3266910807291667" />
+          <ConnectorPoint PointX="8.5" PointY="2.297841796875" />
+          <ConnectorPoint PointX="10.875" PointY="2.297841796875" />
+        </AssociationConnector>
+        <AssociationConnector Association="LapTimes.RacerLeague">
+          <ConnectorPoint PointX="7.75" PointY="3.8648893229166661" />
+          <ConnectorPoint PointX="7.75" PointY="4.6389376744791662" />
+          <ConnectorPoint PointX="9.75" PointY="4.6389376744791662" />
         </AssociationConnector>
         </Diagram>
     </edmx:Diagrams>

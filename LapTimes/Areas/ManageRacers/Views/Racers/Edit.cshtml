@@ -1,0 +1,61 @@
+﻿@model LapTimes.Models.Racer
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Racer</legend>
+
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Name)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.BestTime)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.BestTime)
+            @Html.ValidationMessageFor(model => model.BestTime)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ClassNameId, "ClassName")
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("ClassNameId", String.Empty)
+            @Html.ValidationMessageFor(model => model.ClassNameId)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.LeagueId, "League")
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("LeagueId", String.Empty)
+            @Html.ValidationMessageFor(model => model.LeagueId)
+        </div>
+
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
