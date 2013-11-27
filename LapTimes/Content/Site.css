@@ -181,26 +181,38 @@ footer {
 ul#menu {
     font-size: 1.3em;
     font-weight: 600;
-    margin: 0 0 5px;
-    padding: 0;
+    margin: 0;
+    padding: 0 0 5px;
     text-align: right;
+    border-top: 1px solid #999;
+    border-right: 1px solid #999;
+    border-left: 1px solid #999;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    background-color: RGBA(200, 200, 200, 0.25);
 }
 
     ul#menu li {
         display: inline;
         list-style: none;
-        padding-left: 15px;
     }
 
         ul#menu li a {
             background: none;
             color: #999;
             text-decoration: none;
+            padding: 0 5px 5px 5px;
         }
 
         ul#menu li a:hover {
             color: #333;
             text-decoration: none;
+            border-top: 1px solid #a6dbed;
+            border-right: 1px solid #a6dbed;
+            border-left: 1px solid #a6dbed;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+            background-color: RGBA(164,212,230, 0.5);
         }
 
 
@@ -212,7 +224,7 @@ ul#menu {
 }
 
     .featured .content-wrapper {
-        background-color: #7ac0da;
+        background-color: rgb(122,192,218);
         background-image: -ms-linear-gradient(left, #7ac0da 0%, #a4d4e6 100%);
         background-image: -o-linear-gradient(left, #7ac0da 0%, #a4d4e6 100%);
         background-image: -webkit-gradient(linear, left top, right top, color-stop(0, #7ac0da), color-stop(1, #a4d4e6));
