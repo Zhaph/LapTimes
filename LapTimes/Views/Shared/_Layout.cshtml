@@ -20,9 +20,9 @@
                     </section>
                     <nav>
                         <ul id="menu">
-                            <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                            <li>@Html.ActionLink("About", "About", "Home")</li>
-                            <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                            <li>@Html.ActionLink("Home", "Index", "Home", new {area = ""}, null)</li>
+                            <li>@Html.ActionLink("Manage Racers", "Index", "Home", new { area = "ManageRacers" }, null)</li>
+                            <li>@Html.ActionLink("Manage Races", "Index", "Races", new { area = "ManageRaces" }, null)</li>
                         </ul>
                     </nav>
                 </div>
