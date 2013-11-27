@@ -588,6 +588,22 @@ tr.pager td {
 
 
 /********************
+*   Custom Styles   *
+********************/
+.gold {
+  color: #daa520;
+}
+
+.silver {
+  color: #c2c2c2;
+}
+
+.bronze {
+  color: #da7220;
+}
+
+
+/********************
 *   Mobile Styles   *
 ********************/
 @media only screen and (max-width: 850px) {
