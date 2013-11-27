@@ -1,12 +1,12 @@
 ﻿html {
-    background-color: #e2e2e2;
+    /*background-color: #e2e2e2; */
+  background: url("/Images/checkered-flag.jpg") no-repeat fixed;
     margin: 0;
     padding: 0;
 }
 
 body {
-    background-color: #fff;
-    border-top: solid 10px #000;
+  border-top: solid 10px transparent;
     color: #333;
     font-size: .85em;
     font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;
@@ -99,19 +99,18 @@ h5, h6 {
 }
 
 #body {
-    background-color: #efeeef;
     clear: both;
     padding-bottom: 35px;
 }
 
     .main-content {
-        background: url("../Images/accent.png") no-repeat;
-        padding-left: 10px;
+        background: url("../Images/accent.png") no-repeat #e2e2e2;
+        padding-left: 80px;
         padding-top: 30px;
     }
 
     .featured + .main-content {
-        background: url("../Images/heroAccent.png") no-repeat;
+        background: url("../Images/heroAccent.png") no-repeat #e2e2e2;
     }
 
 header .content-wrapper {
@@ -120,7 +119,7 @@ header .content-wrapper {
 
 footer {
     clear: both;
-    background-color: #e2e2e2;
+    background-color: RGBA(200, 200, 200, 0.25);
     font-size: .8em;
     height: 100px;
 }
@@ -209,7 +208,7 @@ ul#menu {
 ----------------------------------------------------------*/
 /* featured */
 .featured {
-    background-color: #fff;
+    background-color: transparent;
 }
 
     .featured .content-wrapper {
