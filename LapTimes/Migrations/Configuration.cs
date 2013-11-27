@@ -21,6 +21,13 @@ namespace LapTimes.Migrations
         new League {Name = "Juniors", Description = "Years 3 through 6"},
         new League {Name = "Seniors", Description = "Year 7 and up"}
         );
+
+      context.ClassNames.AddOrUpdate(
+        c => c.Name,
+        new ClassName { Name = "RJB" },
+        new ClassName { Name = "1LD" },
+        new ClassName { Name = "4JC" }
+        );
     }
   }
 }
