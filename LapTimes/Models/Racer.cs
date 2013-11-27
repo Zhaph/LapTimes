@@ -26,6 +26,7 @@ namespace LapTimes.Models
     public League League { get; set; }
   }
 
+  [Table("Drivers")]
   public class CurrentDriver: Racer
   {
     public int RaceId { get; set; }
