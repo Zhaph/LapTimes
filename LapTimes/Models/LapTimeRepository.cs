@@ -9,7 +9,7 @@ namespace LapTimes.Models
 
     public IOrderedQueryable<League> GetCurrentLeaderBoards()
     {
-      var leagues = _context.Leagues.Include("Racer");
+      var leagues = _context.Leagues.Include("Drivers");
 
       return leagues;
     }

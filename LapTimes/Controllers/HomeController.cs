@@ -22,7 +22,7 @@ namespace LapTimes.Controllers
 
     public ActionResult Index()
     {
-      ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
+      ViewBag.Message = "Waiting for a race to begin...";
 
       ViewBag.Leagues = _lapRepo.GetCurrentLeaderBoards();
 
