@@ -4,26 +4,26 @@
 @section featured {
     <section class="featured">
         <div class="content-wrapper">
-            <hgroup class="title">
-                <h1>@ViewBag.Title</h1>
-                <h2 id="raceStatus">@ViewBag.Message</h2>
-            </hgroup>
-            <p id="raceDetails">
-                To learn more about ASP.NET MVC visit
-                <a href="http://asp.net/mvc" title="ASP.NET MVC Website">http://asp.net/mvc</a>.
-                The page features <mark>videos, tutorials, and samples</mark> to help you get the most from ASP.NET MVC.
-                If you have any questions about ASP.NET MVC visit
-                <a href="http://forums.asp.net/1146.aspx/1?MVC" title="ASP.NET MVC Forum">our forums</a>.
-            </p>
+          <hgroup class="title">
+              <h1>@ViewBag.Title</h1>
+              <h2 id="raceStatus">@ViewBag.Message</h2>
+          </hgroup>
+          <p id="raceDetails">
+            <ul style="list-style: none; padding: 0 0 5px;">
+              <li>
+                <i class="fa fa-tachometer"></i> In lane <span t-data-bind="text: Lane"></span>, we have <span t-data-bind="text: Name"></span> driving <span t-data-bind="text: Car"></span>
+              </li>
+            </ul>
+          </p>
         </div>
     </section>
 }
-<h3><i class="fa fa-flag-checkered fa-lg"></i> Current Leaders <i class="fa fa-flag-checkered fa-lg"></i></h3>
+<h3 style="text-align: center;"><i class="fa fa-flag-checkered fa-lg"></i> Current Leaders <i class="fa fa-flag-checkered fa-lg"></i></h3>
 
 <div data-bind="foreach:Leagues" class="clear-fix">
-  <div style="width: 30%; text-align: center;" class="float-left">
+  <div data-bind="style: { width: $root.getWidth()}" style="text-align: center;" class="float-left">
     <h4 data-bind="text: Name"></h4>
-    <ul data-bind="foreach: Racers" style="list-style: none;">
+    <ul data-bind="foreach: Racers" style="list-style: none; padding: 0;">
       <li>
         <h5>
           <!-- ko if: $index() === 0 -->
@@ -37,33 +37,11 @@
           <!-- /ko -->
           <span data-bind="text: Name"></span>
         </h5>
-        <p data-bind="text: RawBestTime"></p>
+        <p data-bind="text: $root.bestTime(RawBestTime)"></p>
       </li>
     </ul>
   </div>
 </div>
-<ol class="round">
-  <li class="one">
-    <h5><i class="fa fa-trophy fa-2x gold"></i> Current First Place</h5>
-    <p>00:45:00</p>
-  </li>
-  <li class="two">
-      <h5><i class="fa fa-trophy fa-lg silver"></i> Current Second Place</h5>
-    <p>00:50:00</p>
-  </li>
-  <li class="three">
-    <h5><i class="fa fa-trophy bronze"></i> Current Third Place</h5>
-    <p>00:55:00</p>
-  </li>
-  <li class="four">
-    <h5>Fourth place</h5>
-    <p>01:00:00</p>
-  </li>
-  <li class="five">
-    <h5> <i class="fa fa-tachometer"></i></h5>
-    <p>01:05:00</p>
-  </li>
-</ol>
 
 @section scripts {
   <!--Reference the SignalR library. -->
@@ -81,9 +59,8 @@
         self.Name = ko.observable(data.Name);
         self.RawBestTime = ko.observable(data.RawBestTime);
 
-        self.BestTime = ko.computed(function() {
-          var time = self.RawBestTime();
-         
+        self.BestTime = function (time) {
+
           function addZ(n) {
             return (n < 10 ? '0' : '') + n;
           }
@@ -95,7 +72,7 @@
           var mins = time % 60;
 
           return addZ(mins) + ':' + addZ(secs) + '.' + ms;
-        });
+        }
       }
 
       function League(data) {
@@ -117,7 +94,7 @@
         var race = $.connection.raceHub;
 
         //Initializes the view model
-        this.init = function () {
+        self.init = function () {
           race.server.getAllLeagues();
         }
 
@@ -138,11 +115,35 @@
             raceStatus.html("Race complete!");
           }
         };
+
+        // Helpers
+        self.bestTime = function (time) {
+          function addZ(n) {
+            return (n < 10 ? '0' : '') + n;
+          }
+
+          function addZZ(n) {
+            return (n < 100 ? '0' + addZ(n) : n);
+          }
+
+          var ms = time % 1000;
+          time = (time - ms) / 1000;
+          var secs = time % 60;
+          time = (time - secs) / 60;
+          var mins = time % 60;
+
+          return addZ(mins) + ':' + addZ(secs) + '.' + addZZ(ms);
+        };
+
+        self.getWidth = function() {
+          return 100 / self.Leagues().length + '%';
+        };
       };
 
       var vm = new LeaguesViewModel();
       // Start the connection
       $.connection.hub.start(function () { vm.init(); });
+
 
       ko.applyBindings(vm);
     });
