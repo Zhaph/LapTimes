@@ -37,7 +37,7 @@
           <!-- /ko -->
           <span data-bind="text: Name"></span>
         </h5>
-        <p data-bind="text: $root.bestTime(RawBestTime)"></p>
+        <p data-bind="text: BestTime()"></p>
       </li>
     </ul>
   </div>
@@ -59,65 +59,9 @@
         self.Name = ko.observable(data.Name);
         self.RawBestTime = ko.observable(data.RawBestTime);
 
-        self.BestTime = function (time) {
+        self.BestTime = function () {
+          var time = self.RawBestTime();
 
-          function addZ(n) {
-            return (n < 10 ? '0' : '') + n;
-          }
-
-          var ms = time % 1000;
-          time = (time - ms) / 1000;
-          var secs = time % 60;
-          time = (time - secs) / 60;
-          var mins = time % 60;
-
-          return addZ(mins) + ':' + addZ(secs) + '.' + ms;
-        }
-      }
-
-      function League(data) {
-        var self = this;
-        self.LeagueId = data.LeagueId;
-        self.Name = ko.observable(data.Name);
-
-        var mappedDrivers = $.map(data.Drivers, function (item) {
-          return new Racer(item);
-        });
-
-        self.Racers = ko.observableArray(data.Drivers);
-      }
-
-      function LeaguesViewModel() {
-        var self = this;
-        self.Leagues = ko.observableArray([]);
-
-        var race = $.connection.raceHub;
-
-        //Initializes the view model
-        self.init = function () {
-          race.server.getAllLeagues();
-        }
-
-        race.client.getAllLeagues = function (currentLeaderBoards) {
-          var mappedLeagues = $.map(currentLeaderBoards, function (item) {
-            return new League(item);
-          });
-
-          self.Leagues(mappedLeagues);
-        }
-
-        race.client.updateRace = function (currentRace) {
-          var raceStatus = $('#raceStatus');
-          if (!currentRace.IsComplete) {
-            raceStatus.html("Race in progress!");
-          }
-          else {
-            raceStatus.html("Race complete!");
-          }
-        };
-
-        // Helpers
-        self.bestTime = function (time) {
           function addZ(n) {
             return (n < 10 ? '0' : '') + n;
           }
@@ -134,8 +78,50 @@
 
           return addZ(mins) + ':' + addZ(secs) + '.' + addZZ(ms);
         };
+      }
 
-        self.getWidth = function() {
+      function League(data) {
+        var self = this;
+        self.LeagueId = data.LeagueId;
+        self.Name = ko.observable(data.Name);
+
+        var mappedDrivers = $.map(data.Drivers, function (item) {
+          return new Racer(item);
+        });
+
+        self.Racers = ko.observableArray(mappedDrivers);
+      }
+
+      function LeaguesViewModel() {
+        var self = this;
+        self.Leagues = ko.observableArray([]);
+
+        var race = $.connection.raceHub;
+
+        //Initializes the view model
+        self.init = function () {
+          race.server.getAllLeagues();
+        };
+
+        race.client.getAllLeagues = function(currentLeaderBoards) {
+          var mappedLeagues = $.map(currentLeaderBoards, function(item) {
+            return new League(item);
+          });
+
+          self.Leagues(mappedLeagues);
+        };
+
+        race.client.updateRace = function (currentRace) {
+          var raceStatus = $('#raceStatus');
+          if (!currentRace.IsComplete) {
+            raceStatus.html("Race in progress!");
+          }
+          else {
+            raceStatus.html("Race complete!");
+          }
+        };
+
+        self.getWidth = function () {
           return 100 / self.Leagues().length + '%';
         };
       };
