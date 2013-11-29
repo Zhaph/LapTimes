@@ -26,7 +26,7 @@ namespace LapTimes.Hubs
 
     public void GetAllLeagues()
     {
-      Clients.Caller.getAllLeagues(_repo.GetCurrentLeaderBoards());
+      Clients.Caller.getAllLeagues(_repo.GetCurrentLeaderBoards(), _repo.CurrentRace());
     }
 
   }

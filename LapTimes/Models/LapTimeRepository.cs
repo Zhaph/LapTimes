@@ -105,7 +105,7 @@ namespace LapTimes.Models
 
     private IOrderedQueryable<Race> loadRaces()
     {
-      return _context.Races.Include("Racers").Include("Leagues").Include("ClassNames");
+      return _context.Races.Include("Racers").Include("Racers.Car");
     }
   }
 }
