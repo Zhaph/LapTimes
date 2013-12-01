@@ -46,6 +46,16 @@ namespace LapTimes.Migrations
         new ClassName {Name = "6CW"},
         new ClassName {Name = "6HW"}
         );
+
+      context.Cars.AddOrUpdate(
+        c => c.Name,
+        new Car {Name = "2 - GT Black"},
+        new Car {Name = "7 - GT White"},
+        new Car {Name = "12 - Rally Orange"},
+        new Car {Name = "14 - Rally Yellow"},
+        new Car {Name = "14 - Pro Red"},
+        new Car {Name = "15 - Pro Yellow"}
+        );
     }
   }
 }

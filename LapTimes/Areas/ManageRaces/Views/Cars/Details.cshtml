@@ -1,0 +1,24 @@
+﻿@model LapTimes.Models.Car
+
+@{
+  ViewBag.Title = string.Format("Details For Car \"{0}\"", Model.Name);
+}
+
+<hgroup class="title">
+  <h1>@ViewBag.Title:</h1>
+</hgroup>
+
+<fieldset>
+    <legend>Car</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Name)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.CarId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
