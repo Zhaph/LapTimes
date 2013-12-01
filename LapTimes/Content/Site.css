@@ -677,12 +677,12 @@ tr.pager td {
 
     /* menu */
     nav {
-        margin-bottom: 5px;
+        margin-bottom: 0;
     }
 
     ul#menu {
         margin: 0;
-        padding: 0;
+        padding: 0 0 5px;
         text-align: center;
     }
 
