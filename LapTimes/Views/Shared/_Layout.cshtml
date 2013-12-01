@@ -1,48 +1,49 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <title>@ViewBag.Title - Scalextric&trade; Racing</title>
-        <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-        <meta name="viewport" content="width=device-width" />
-        @Styles.Render("~/Content/css")
-        @Scripts.Render("~/bundles/modernizr")
-    </head>
-    <body>
-        <header>
-            <div class="content-wrapper">
-                <div class="float-left">
-                    <p class="site-title">@Html.ActionLink("your logo here", "Index", "Home")</p>
-                </div>
-                <div class="float-right">
-                    <section id="login">
-                        @Html.Partial("_LoginPartial")
-                    </section>
-                    <nav>
-                        <ul id="menu">
-                            <li>@Html.ActionLink("Home", "Index", "Home", new {area = ""}, null)</li>
-                            <li>@Html.ActionLink("Manage Racers", "Index", "Home", new { area = "ManageRacers" }, null)</li>
-                            <li>@Html.ActionLink("Manage Races", "Index", "Races", new { area = "ManageRaces" }, null)</li>
-                        </ul>
-                    </nav>
-                </div>
-            </div>
-        </header>
-        <div id="body">
-            @RenderSection("featured", required: false)
-            <section class="content-wrapper main-content clear-fix">
-                @RenderBody()
-            </section>
+  <head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title - Scalextric&trade; Racing</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @RenderSection("pageClasses", required: false)
+  </head>
+  <body>
+    <header>
+      <div class="content-wrapper">
+        <div class="float-left">
+          <p class="site-title">&nbsp;</p>
         </div>
-        <footer>
-            <div class="content-wrapper">
-                <div class="float-left">
-                    <p>&copy; @DateTime.Now.Year - My ASP.NET MVC Application</p>
-                </div>
-            </div>
-        </footer>
+        <div class="float-right">
+          <section id="login">
+            @Html.Partial("_LoginPartial")
+          </section>
+          <nav>
+            <ul id="menu">
+              <li>@Html.ActionLink("Home", "Index", "Home", new {area = ""}, null)</li>
+              <li>@Html.ActionLink("Manage Racers", "Index", "Home", new { area = "ManageRacers" }, null)</li>
+              <li>@Html.ActionLink("Manage Races", "Index", "Races", new { area = "ManageRaces" }, null)</li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </header>
+    <div id="body">
+      @RenderSection("featured", required: false)
+      <section class="content-wrapper main-content clear-fix">
+        @RenderBody()
+      </section>
+    </div>
+    <footer>
+      <div class="content-wrapper">
+        <div class="float-left">
+          <p>&copy; @DateTime.Now.Year - <a href="http://www.doodle.co.uk/" rel="author">Ben Duguid</a>, Doodle Graphics</p>
+        </div>
+      </div>
+    </footer>
 
-        @Scripts.Render("~/bundles/jquery")
-        @RenderSection("scripts", required: false)
-    </body>
+    @Scripts.Render("~/bundles/jquery")
+    @RenderSection("scripts", required: false)
+  </body>
 </html>

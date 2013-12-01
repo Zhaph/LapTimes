@@ -27,12 +27,14 @@ namespace LapTimes.Areas.ManageRacers.Controllers
 
         public ActionResult Details(int id = 0)
         {
-            Racer racer = db.Racers.Find(id);
-            if (racer == null)
-            {
-                return HttpNotFound();
-            }
-            return View(racer);
+          Racer racer = db.Racers.Include(r => r.ClassName).Include(r => r.League).Single(r=> r.RacerId == id);
+          
+          if (racer == null)
+          {
+            return HttpNotFound();
+          }
+
+          return View(racer);
         }
 
         //
@@ -40,7 +42,7 @@ namespace LapTimes.Areas.ManageRacers.Controllers
 
         public ActionResult Create()
         {
-            ViewBag.ClassId = new SelectList(db.ClassNames, "ClassId", "Name");
+          ViewBag.ClassId = new SelectList(db.ClassNames.OrderBy(c => c.Name), "ClassId", "Name");
             ViewBag.LeagueId = new SelectList(db.Leagues, "LeagueId", "Name");
             return View();
         }
@@ -58,7 +60,7 @@ namespace LapTimes.Areas.ManageRacers.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.ClassId = new SelectList(db.ClassNames, "ClassId", "Name", racer.ClassId);
+            ViewBag.ClassId = new SelectList(db.ClassNames.OrderBy(c => c.Name), "ClassId", "Name", racer.ClassId);
             ViewBag.LeagueId = new SelectList(db.Leagues, "LeagueId", "Name", racer.LeagueId);
             return View(racer);
         }
@@ -73,7 +75,7 @@ namespace LapTimes.Areas.ManageRacers.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.ClassId = new SelectList(db.ClassNames, "ClassId", "Name", racer.ClassId);
+            ViewBag.ClassId = new SelectList(db.ClassNames.OrderBy(c => c.Name), "ClassId", "Name", racer.ClassId);
             ViewBag.LeagueId = new SelectList(db.Leagues, "LeagueId", "Name", racer.LeagueId);
             return View(racer);
         }
@@ -90,7 +92,7 @@ namespace LapTimes.Areas.ManageRacers.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.ClassId = new SelectList(db.ClassNames, "ClassId", "Name", racer.ClassId);
+            ViewBag.ClassId = new SelectList(db.ClassNames.OrderBy(c => c.Name), "ClassId", "Name", racer.ClassId);
             ViewBag.LeagueId = new SelectList(db.Leagues, "LeagueId", "Name", racer.LeagueId);
             return View(racer);
         }
@@ -100,12 +102,14 @@ namespace LapTimes.Areas.ManageRacers.Controllers
 
         public ActionResult Delete(int id = 0)
         {
-            Racer racer = db.Racers.Find(id);
-            if (racer == null)
-            {
-                return HttpNotFound();
-            }
-            return View(racer);
+          Racer racer = db.Racers.Include(r => r.ClassName).Include(r => r.League).Single(r => r.RacerId == id);
+
+          if (racer == null)
+          {
+            return HttpNotFound();
+          }
+
+          return View(racer);
         }
 
         //
@@ -119,6 +123,22 @@ namespace LapTimes.Areas.ManageRacers.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
+      //
+      // GET: /ManageRacers/Racers/GetRacersStartingWith/q/10
+      public ActionResult GetRacersStartingWith(string q, int limit)
+      {
+
+        if (!string.IsNullOrEmpty(q) && limit > 0)
+        {
+          // TODO: Caching?
+          var racers = db.Racers.Where(r => r.Name.StartsWith(q)).OrderBy(r => r.Name).Take(limit).Select(r => new {id = r.RacerId, label= r.Name, name = r.Name});
+
+          return Json(racers, JsonRequestBehavior.AllowGet);
+        }
+
+        return null;
+      }
 
         protected override void Dispose(bool disposing)
         {

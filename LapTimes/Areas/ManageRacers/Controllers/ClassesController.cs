@@ -18,7 +18,7 @@ namespace LapTimes.Areas.ManageRacers.Controllers
 
         public ActionResult Index()
         {
-            return View(db.ClassNames.ToList());
+            return View(db.ClassNames.OrderBy(c => c.Name).ToList());
         }
 
         //

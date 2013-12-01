@@ -24,9 +24,27 @@ namespace LapTimes.Migrations
 
       context.ClassNames.AddOrUpdate(
         c => c.Name,
-        new ClassName { Name = "RJB" },
-        new ClassName { Name = "1LD" },
-        new ClassName { Name = "4JC" }
+        new ClassName {Name = "RHM"},
+        new ClassName {Name = "RJB"},
+        new ClassName {Name = "RJP"},
+        new ClassName {Name = "1LD/GR"},
+        new ClassName {Name = "1KF"},
+        new ClassName {Name = "1AT"},
+        new ClassName {Name = "2H"},
+        new ClassName {Name = "2JO"},
+        new ClassName {Name = "2GW"},
+        new ClassName {Name = "3AC"},
+        new ClassName {Name = "3DS"},
+        new ClassName {Name = "3RS/SS"},
+        new ClassName {Name = "4JC"},
+        new ClassName {Name = "4JJ"},
+        new ClassName {Name = "4JSp"},
+        new ClassName {Name = "5MR"},
+        new ClassName {Name = "5NS"},
+        new ClassName {Name = "5SO"},
+        new ClassName {Name = "6AS"},
+        new ClassName {Name = "6CW"},
+        new ClassName {Name = "6HW"}
         );
     }
   }

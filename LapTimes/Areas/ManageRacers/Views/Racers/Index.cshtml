@@ -1,10 +1,12 @@
 ﻿@model IEnumerable<LapTimes.Models.Racer>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Manage Racers";
 }
 
-<h2>Index</h2>
+<hgroup class="title">
+  <h1>@ViewBag.Title</h1>
+</hgroup>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -18,6 +20,9 @@
             @Html.DisplayNameFor(model => model.RawBestTime)
         </th>
         <th>
+            @Html.DisplayNameFor(model => model.IsWaitingForRace)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.ClassName.Name)
         </th>
         <th>
@@ -29,10 +34,13 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Name)
+          @Html.ActionLink(item.Name, "Details", new { id = item.RacerId })
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.RawBestTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsWaitingForRace)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.ClassName.Name)
@@ -42,7 +50,6 @@
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.RacerId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.RacerId }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.RacerId })
         </td>
     </tr>

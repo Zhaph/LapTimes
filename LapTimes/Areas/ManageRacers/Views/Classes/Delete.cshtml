@@ -1,10 +1,12 @@
 ﻿@model LapTimes.Models.ClassName
 
 @{
-    ViewBag.Title = "Delete";
+  ViewBag.Title = string.Format("Delete Class \"{0}\"", Model.Name);
 }
 
-<h2>Delete</h2>
+<hgroup class="title">
+  <h1>@ViewBag.Title:</h1>
+</hgroup>
 
 <h3>Are you sure you want to delete this?</h3>
 <fieldset>

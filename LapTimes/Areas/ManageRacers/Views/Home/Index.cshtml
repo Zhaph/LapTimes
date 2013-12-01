@@ -1,0 +1,96 @@
+﻿@model LapTimes.Models.Racer
+
+@{
+    ViewBag.Title = "Manage Racers and Leagues";
+}
+
+@section pageClasses {
+  @Styles.Render("~/Content/themes/base/css")
+}
+
+<hgroup class="title">
+    <h1>@ViewBag.Title</h1>
+</hgroup>
+
+<article>
+  <h2>Check in a new racer</h2>
+@using (Html.BeginForm()) {
+  @Html.ValidationSummary(true)
+
+  <fieldset>
+    <legend>Check in a new racer</legend>
+
+    @Html.HiddenFor(model => model.RacerId)
+
+    <div class="editor-label">
+      <label for="DriverSearch">Driver Name:</label>
+    </div>
+    <div class="editor-field">
+      @Html.EditorFor(model => model.Name)
+      @Html.ValidationMessageFor(model => model.Name)
+    </div>
+
+    <div class="editor-label" id="classLabel">
+      @Html.LabelFor(model => model.ClassId)
+    </div>
+    <div class="editor-field" id="classSelect">
+      @Html.DropDownList("ClassId", String.Empty)
+      @Html.ValidationMessageFor(model => model.ClassId)
+    </div>
+
+    <div class="editor-label" id="leagueLabel">
+      @Html.LabelFor(model => model.LeagueId)
+    </div>
+    <div class="editor-field" id="leagueSelect">
+      @Html.DropDownList("LeagueId", String.Empty)
+      @Html.ValidationMessageFor(model => model.LeagueId)
+    </div>
+
+    <p>
+      <input type="submit" value="Register" />
+    </p>
+
+  </fieldset>
+}
+</article>
+
+<aside>
+  <h3>Racer Management:</h3>
+  <ul>
+    <li>@Html.ActionLink("Manage Racers", "Index", "Racers")</li>
+    <li>@Html.ActionLink("Manage Classes", "Index", "Classes")</li>
+    <li>@Html.ActionLink("Manage Leagues", "Index", "Leagues")</li>
+  </ul>
+</aside>
+
+@section scripts {
+  @Scripts.Render("~/bundles/jqueryui")
+  <script>
+    $('#Name').autocomplete({ delay: 250,
+      minLength: 3,
+      source: function (request, response) {
+        $.ajax({
+          url: '@Url.Action("GetRacersStartingWith", "Racers")/' + request.term + '/10',
+          type: "POST",
+          dataType: "json",
+          success: function (data) {
+            response($.map(data, function (item) {
+              return {
+                id: item.id,
+                label: item.label,
+                value: item.name
+              }
+            }));
+          },
+        });},
+        select: function (event, ui) {
+          //update the jQuery selector here to your target hidden field
+          $('#RacerId').val(ui.item.id);
+          $('#classLabel').hide();
+          $('#classSelect').hide();
+          $('#leagueLabel').hide();
+          $('#leagueSelect').hide();
+        }
+    });
+  </script>
+}

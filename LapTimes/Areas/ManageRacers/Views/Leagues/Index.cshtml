@@ -1,10 +1,12 @@
 ﻿@model IEnumerable<LapTimes.Models.League>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Manage Leagues";
 }
 
-<h2>Index</h2>
+<hgroup class="title">
+  <h1>@ViewBag.Title</h1>
+</hgroup>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -23,14 +25,13 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Name)
+          @Html.ActionLink(item.Name, "Details", new { id = item.LeagueId })
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Description)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.LeagueId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.LeagueId }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.LeagueId })
         </td>
     </tr>

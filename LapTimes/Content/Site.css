@@ -105,7 +105,7 @@ h5, h6 {
 
     .main-content {
         background: url("../Images/accent.png") no-repeat #e2e2e2;
-        padding: 30px 80px 80px 0;
+        padding: 30px 40px;
     }
 
     .featured + .main-content {
@@ -424,7 +424,7 @@ fieldset {
             padding-bottom: 5px;
         }
 
-label {
+.display-label, label {
     display: block;
     font-size: 1.2em;
     font-weight: 600;
@@ -612,6 +612,19 @@ tr.pager td {
   color: #da7220;
 }
 
+.home-racer-container {
+  text-align: center;
+}
+
+.home-racer-list {
+  list-style: none;
+  padding: 0;
+}
+
+.home-current-racers {
+  list-style: none;
+  padding: 0 0 5px;
+}
 
 /********************
 *   Mobile Styles   *

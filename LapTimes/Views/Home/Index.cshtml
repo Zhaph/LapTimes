@@ -10,7 +10,7 @@
               <h2 data-bind="visible: CurrentRace()">The race has started!</h2>
           </hgroup>
           <div id="raceDetails" data-bind="visible: CurrentRace() ? CurrentRace().IsInProgress : false">
-            <ul style="list-style: none; padding: 0 0 5px;">
+            <ul class="home-current-racers">
               <li>
                 <i class="fa fa-tachometer"></i> In lane <span t-data-bind="text: Lane"></span>, we have <span t-data-bind="text: Name"></span> driving <span t-data-bind="text: Car"></span>
               </li>
@@ -22,9 +22,9 @@
 <h3 style="text-align: center;"><i class="fa fa-flag-checkered fa-lg"></i> Current Leaders <i class="fa fa-flag-checkered fa-lg"></i></h3>
 
 <div data-bind="foreach:Leagues" class="clear-fix">
-  <div data-bind="style: { width: $root.getWidth()}" style="text-align: center;" class="float-left">
+  <div data-bind="style: { width: $root.getWidth()}" class="float-left home-racer-container">
     <h4 data-bind="text: Name"></h4>
-    <ul data-bind="foreach: Racers" style="list-style: none; padding: 0;">
+    <ul data-bind="foreach: Racers" class="home-racer-list">
       <li>
         <h5>
           <!-- ko if: $index() === 0 -->

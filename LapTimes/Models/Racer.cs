@@ -17,6 +17,9 @@ namespace LapTimes.Models
     [Display(Name = "Raw Best Time (ms)")]
     public int RawBestTime { get; set; }
 
+    [Display(Name = "Has Paid for a Race?")]
+    public bool IsWaitingForRace { get; set; }
+
     [Display(Name = "Class Name", Description = "The class you are representing")]
     public int ClassId { get; set; }
     [ForeignKey("ClassId")]

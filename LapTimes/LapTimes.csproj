@@ -179,6 +179,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\ManageRacers\Controllers\ClassesController.cs" />
+    <Compile Include="Areas\ManageRacers\Controllers\HomeController.cs" />
     <Compile Include="Areas\ManageRacers\Controllers\LeaguesController.cs" />
     <Compile Include="Areas\ManageRacers\Controllers\RacersController.cs" />
     <Compile Include="Areas\ManageRacers\ManageRacersAreaRegistration.cs" />
@@ -201,6 +202,10 @@
     <Compile Include="Migrations\201311270013347_SplitRacersDrivers.cs" />
     <Compile Include="Migrations\201311270013347_SplitRacersDrivers.Designer.cs">
       <DependentUpon>201311270013347_SplitRacersDrivers.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201311302333562_IsWaiting.cs" />
+    <Compile Include="Migrations\201311302333562_IsWaiting.Designer.cs">
+      <DependentUpon>201311302333562_IsWaiting.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Car.cs" />
@@ -406,11 +411,16 @@
     <EmbeddedResource Include="Migrations\201311270013347_SplitRacersDrivers.resx">
       <DependentUpon>201311270013347_SplitRacersDrivers.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201311302333562_IsWaiting.resx">
+      <DependentUpon>201311302333562_IsWaiting.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\ManageRacers\Views\_ViewStart.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\ManageRacers\Views\Home\Index.cshtml" />
+    <Content Include="Areas\ManageRaces\Views\_ViewStart.cshtml" />
     <None Include="Content\Font-Awesome\fonts\fontawesome-webfont.eot" />
     <None Include="Content\Font-Awesome\fonts\fontawesome-webfont.ttf" />
     <None Include="Content\Font-Awesome\fonts\fontawesome-webfont.woff" />
