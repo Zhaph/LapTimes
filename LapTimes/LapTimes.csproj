@@ -184,6 +184,7 @@
     <Compile Include="Areas\ManageRacers\Controllers\RacersController.cs" />
     <Compile Include="Areas\ManageRacers\ManageRacersAreaRegistration.cs" />
     <Compile Include="Areas\ManageRaces\Controllers\CarsController.cs" />
+    <Compile Include="Areas\ManageRaces\Controllers\HomeController.cs" />
     <Compile Include="Areas\ManageRaces\ManageRacesAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -343,7 +344,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\ManageRacers\Models\" />
-    <Folder Include="Areas\ManageRacers\Views\Shared\" />
     <Folder Include="Areas\ManageRaces\Models\" />
     <Folder Include="Areas\ManageRaces\Views\Shared\" />
   </ItemGroup>
@@ -426,6 +426,8 @@
     <Content Include="Areas\ManageRaces\Views\Cars\Create.cshtml" />
     <Content Include="Areas\ManageRaces\Views\Cars\Edit.cshtml" />
     <Content Include="Areas\ManageRaces\Views\Cars\Delete.cshtml" />
+    <Content Include="Areas\ManageRaces\Views\Home\Index.cshtml" />
+    <Content Include="Areas\ManageRacers\Views\Shared\EditorTemplates\CurrentDriver.cshtml" />
     <None Include="Content\Font-Awesome\fonts\fontawesome-webfont.eot" />
     <None Include="Content\Font-Awesome\fonts\fontawesome-webfont.ttf" />
     <None Include="Content\Font-Awesome\fonts\fontawesome-webfont.woff" />

@@ -1,0 +1,25 @@
+﻿@model LapTimes.Models.CurrentDriver
+
+<div class="editor-label" id="classLabel">
+  @Html.LabelFor(model => model.Lane)
+</div>
+<div class="editor-field" id="classSelect">
+  @Html.EditorFor(model => model.Lane)
+  @Html.ValidationMessageFor(model => model.Lane)
+</div>
+
+<div class="editor-label" id="classLabel">
+  @Html.LabelFor(model => model.RacerId, "Driver")
+</div>
+<div class="editor-field" id="classSelect">
+  @Html.DropDownList("RacerId", String.Empty)
+  @Html.ValidationMessageFor(model => model.RacerId)
+</div>
+
+<div class="editor-label" id="classLabel">
+  @Html.LabelFor(model => model.CarId, "Driving Car")
+</div>
+<div class="editor-field" id="classSelect">
+  @Html.DropDownList("CarId", String.Empty)
+  @Html.ValidationMessageFor(model => model.CarId)
+</div>
