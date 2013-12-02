@@ -34,15 +34,23 @@ namespace LapTimes.Models
     public League League { get; set; }
   }
 
-  [Table("Drivers")]
-  public class CurrentDriver: Racer
+  [Table("RaceDrivers")]
+  public class CurrentDriver
   {
+    public int Lane { get; set; }
+
+    [Display(Name = "Racer")]
+    [Key, Column(Order = 0)]
+    public int RacerId { get; set; }
+    [ForeignKey("RacerId")]
+    public Racer Racer { get; set; }
+
     [Display(Name = "Race")]
+    [Key, Column(Order = 1)]
     public int RaceId { get; set; }
     [ForeignKey("RaceId")]
+    [JsonIgnore]
     public Race Race { get; set; }
-
-    public int Lane { get; set; }
 
     [Display(Name = "Chosen car for the race")]
     public int CarId { get; set; }

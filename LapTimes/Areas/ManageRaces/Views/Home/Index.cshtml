@@ -10,8 +10,8 @@
 
 <article>
   <h2>Run a race</h2>
-  @if (Model == null)
-  { 
+  @if (Model == null || Model.RaceId == 0)
+  {
     using (Html.BeginForm())
     {
       @Html.ValidationSummary(true)
@@ -21,27 +21,7 @@
 
         @Html.HiddenFor(model => model.RaceId)
 
-        @Html.EditorFor(model => model.Racers)
-
-      @for (int i = 0; i < ViewBag.NumberOfLanes; i++)
-      {
-        <h3>@string.Format("In Lane {0}:", i + 1)</h3>
-        <div class="editor-label" id="classLabel">
-          @Html.LabelFor(model => model.Racers[i].RacerId, "Driver")
-        </div>
-        <div class="editor-field" id="classSelect">
-          @Html.DropDownList("RacerId", String.Empty)
-          @Html.ValidationMessageFor(model => model.Racers[i].RacerId)
-        </div>
-    
-        <div class="editor-label" id="classLabel">
-          @Html.LabelFor(model => model.Racers[i].CarId, "Driving Car")
-        </div>
-        <div class="editor-field" id="classSelect">
-          @Html.DropDownList("CarId", String.Empty)
-          @Html.ValidationMessageFor(model => model.Racers[i].CarId)
-        </div>
-      }
+        @Html.EditorFor(model => model.Drivers)
 
         <p>
           <input type="submit" value="Prepare Race" />
@@ -49,6 +29,10 @@
 
       </fieldset>
     }
+  }
+  else
+  { 
+    // Set up Knockout Stopwatches...
   }
 </article>
 

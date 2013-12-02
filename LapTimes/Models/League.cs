@@ -18,6 +18,6 @@ namespace LapTimes.Models
     [Display(Name = "League Description")]
     public string Description { get; set; }
 
-    public List<Racer> Drivers { get; set; } 
+    public List<Racer> Racers { get; set; } 
   }
 }

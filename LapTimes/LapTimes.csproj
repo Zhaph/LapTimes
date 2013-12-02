@@ -209,6 +209,18 @@
     <Compile Include="Migrations\201311302333562_IsWaiting.Designer.cs">
       <DependentUpon>201311302333562_IsWaiting.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201312020047428_SwitchDrivers.cs" />
+    <Compile Include="Migrations\201312020047428_SwitchDrivers.Designer.cs">
+      <DependentUpon>201312020047428_SwitchDrivers.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201312020106310_NullableRaceDateTimes.cs" />
+    <Compile Include="Migrations\201312020106310_NullableRaceDateTimes.Designer.cs">
+      <DependentUpon>201312020106310_NullableRaceDateTimes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201312020138539_RenameDriversRacers.cs" />
+    <Compile Include="Migrations\201312020138539_RenameDriversRacers.Designer.cs">
+      <DependentUpon>201312020138539_RenameDriversRacers.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Car.cs" />
     <Compile Include="Models\ClassName.cs" />
@@ -222,6 +234,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\ManageRaces\Views\Shared\EditorTemplates\CurrentDriver.cshtml">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="Content\Font-Awesome\css\font-awesome.css" />
     <Content Include="Content\Font-Awesome\css\font-awesome.min.css" />
     <Content Include="Content\Font-Awesome\fonts\fontawesome-webfont.svg" />
@@ -344,8 +359,8 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\ManageRacers\Models\" />
+    <Folder Include="Areas\ManageRacers\Views\Shared\" />
     <Folder Include="Areas\ManageRaces\Models\" />
-    <Folder Include="Areas\ManageRaces\Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -414,6 +429,15 @@
     <EmbeddedResource Include="Migrations\201311302333562_IsWaiting.resx">
       <DependentUpon>201311302333562_IsWaiting.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201312020047428_SwitchDrivers.resx">
+      <DependentUpon>201312020047428_SwitchDrivers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201312020106310_NullableRaceDateTimes.resx">
+      <DependentUpon>201312020106310_NullableRaceDateTimes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201312020138539_RenameDriversRacers.resx">
+      <DependentUpon>201312020138539_RenameDriversRacers.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\ManageRacers\Views\_ViewStart.cshtml" />
@@ -427,7 +451,6 @@
     <Content Include="Areas\ManageRaces\Views\Cars\Edit.cshtml" />
     <Content Include="Areas\ManageRaces\Views\Cars\Delete.cshtml" />
     <Content Include="Areas\ManageRaces\Views\Home\Index.cshtml" />
-    <Content Include="Areas\ManageRacers\Views\Shared\EditorTemplates\CurrentDriver.cshtml" />
     <None Include="Content\Font-Awesome\fonts\fontawesome-webfont.eot" />
     <None Include="Content\Font-Awesome\fonts\fontawesome-webfont.ttf" />
     <None Include="Content\Font-Awesome\fonts\fontawesome-webfont.woff" />

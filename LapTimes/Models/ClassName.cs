@@ -15,6 +15,6 @@ namespace LapTimes.Models
     [Display(Name = "Class Name", Description = "The class you are representing")]
     public string Name { get; set; }
 
-    public List<Racer> Drivers { get; set; } 
+    public List<Racer> Racers { get; set; } 
   }
 }

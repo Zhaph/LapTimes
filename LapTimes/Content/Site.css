@@ -626,6 +626,11 @@ tr.pager td {
   padding: 0 0 5px;
 }
 
+.home-driver-name {
+  font-weight: 600;
+  font-style: italic;
+}
+
 /********************
 *   Mobile Styles   *
 ********************/

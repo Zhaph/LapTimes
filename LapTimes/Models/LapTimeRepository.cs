@@ -9,7 +9,7 @@ namespace LapTimes.Models
 
     public IOrderedQueryable<League> GetCurrentLeaderBoards()
     {
-      var leagues = _context.Leagues.Include("Drivers");
+      var leagues = _context.Leagues.Include("Racers");
 
       return leagues;
     }
@@ -77,7 +77,7 @@ namespace LapTimes.Models
     {
       if (race.IsComplete)
       {
-        return race.Racers.OrderBy(cr => cr.RawRaceTime).First();
+        return race.Drivers.OrderBy(cr => cr.RawRaceTime).First();
       }
 
       return null;
@@ -105,7 +105,7 @@ namespace LapTimes.Models
 
     private IOrderedQueryable<Race> loadRaces()
     {
-      return _context.Races.Include("Racers").Include("Racers.Car");
+      return _context.Races.Include("Drivers").Include("Drivers.Car");
     }
   }
 }

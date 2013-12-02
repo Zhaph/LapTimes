@@ -1,12 +1,9 @@
 ﻿@model LapTimes.Models.CurrentDriver
 
-<div class="editor-label" id="classLabel">
-  @Html.LabelFor(model => model.Lane)
+<div class="display-label">
+      @Html.DisplayNameFor(model => model.Lane) @Html.DisplayFor(model => model.Lane):
 </div>
-<div class="editor-field" id="classSelect">
-  @Html.EditorFor(model => model.Lane)
-  @Html.ValidationMessageFor(model => model.Lane)
-</div>
+@Html.HiddenFor(model => model.Lane)
 
 <div class="editor-label" id="classLabel">
   @Html.LabelFor(model => model.RacerId, "Driver")
@@ -23,3 +20,5 @@
   @Html.DropDownList("CarId", String.Empty)
   @Html.ValidationMessageFor(model => model.CarId)
 </div>
+
+<hr />

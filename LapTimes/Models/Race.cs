@@ -16,10 +16,10 @@ namespace LapTimes.Models
 
     public bool IsComplete { get; set; }
 
-    public DateTime StartTime { get; set; }
+    public DateTime? StartTime { get; set; }
 
-    public DateTime EndTime { get; set; }
+    public DateTime? EndTime { get; set; }
 
-    public List<CurrentDriver> Racers { get; set; } 
+    public List<CurrentDriver> Drivers { get; set; } 
   }
 }

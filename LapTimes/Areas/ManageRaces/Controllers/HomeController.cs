@@ -11,6 +11,15 @@ namespace LapTimes.Areas.ManageRaces.Controllers
     public class HomeController : Controller
     {
       private LapTimesContext db = new LapTimesContext();
+      private ILapTimeRepository _repo;
+
+      public HomeController(): this(new LapTimeRepository())
+      {}
+
+      public HomeController(ILapTimeRepository repo)
+      {
+        _repo = repo;
+      }
 
       private int _numberOfLanes = int.Parse(WebConfigurationManager.AppSettings["RaceLanes"]);
       
@@ -24,7 +33,21 @@ namespace LapTimes.Areas.ManageRaces.Controllers
                                            "Name");
           ViewBag.NumberOfLanes = _numberOfLanes;
 
-          var currentRace = db.Races.Where(r => !r.IsComplete).SingleOrDefault();
+          var currentRace = _repo.CurrentRace() ??
+                            new Race
+                              {
+                                RaceId = 0,
+                                Drivers =
+                                  new List<CurrentDriver>(_numberOfLanes)
+                              };
+
+          if (currentRace.RaceId == 0)
+          {
+            for (int lane = 0; lane < _numberOfLanes; lane++)
+            {
+              currentRace.Drivers.Add(new CurrentDriver{Lane = lane + 1});
+            }
+          }
 
           return View(currentRace);
         }
@@ -34,7 +57,9 @@ namespace LapTimes.Areas.ManageRaces.Controllers
       {
         if (ModelState.IsValid)
         {
-          
+          db.Races.Add(newRace);
+          db.SaveChanges();
+          return RedirectToAction("Index");
         }
 
         ViewBag.CarId = new SelectList(db.Cars.OrderBy(c => c.CarId), "CarId", "Name");

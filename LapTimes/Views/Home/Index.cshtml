@@ -3,16 +3,19 @@
 }
 @section featured {
     <section class="featured">
-        <div class="content-wrapper">
+        <div class="content-wrapper" data-bind="with: CurrentRace">
           <hgroup class="title">
               <h1>@ViewBag.Title</h1>
-              <h2 data-bind="visible: !CurrentRace()">@ViewBag.Message</h2>
-              <h2 data-bind="visible: CurrentRace()">The race has started!</h2>
+              <h2 data-bind="visible: !IsActive">@ViewBag.Message</h2>
+              <h2 data-bind="visible: IsActive">We have a race!</h2>
           </hgroup>
-          <div id="raceDetails" data-bind="visible: CurrentRace() ? CurrentRace().IsInProgress : false">
-            <ul class="home-current-racers">
+          <div id="raceDetails" data-bind="visible: IsActive  && IsInProgress">
+            <ul class="home-current-racers" data-bind="foreach: Drivers">
               <li>
-                <i class="fa fa-tachometer"></i> In lane <span t-data-bind="text: Lane"></span>, we have <span t-data-bind="text: Name"></span> driving <span t-data-bind="text: Car"></span>
+                <i class="fa fa-tachometer"></i> 
+                In lane <span data-bind="text: Lane"></span>: 
+                <span data-bind="text: Name" class="home-driver-name"></span> 
+                is driving <span data-bind="text: Car" class="home-car-name"></span>
               </li>
             </ul>
           </div>
@@ -76,7 +79,7 @@
       function CurrentRacer(data) {
         var self = this;
         self.RacerId = data.RacerId;
-        self.Name = ko.observable(data.Name);
+        self.Name = ko.observable(data.Racer.Name);
         self.Car = ko.observable(data.Car.Name);
         self.Lane = ko.observable(data.Lane);
         self.RawRaceTime = ko.observable(data.RawRaceTime);
@@ -107,27 +110,31 @@
         self.LeagueId = data.LeagueId;
         self.Name = ko.observable(data.Name);
 
-        var mappedDrivers = $.map(data.Drivers, function (item) {
+        var mappedRacers = $.map(data.Racers, function (item) {
           return new Racer(item);
         });
-        self.Racers = ko.observableArray(mappedDrivers);
+        self.Racers = ko.observableArray(mappedRacers);
       }
 
       function CurrentRace(data) {
+        var self = this;
+
+        self.IsActive = ko.observable(true);
+
         if (!data) {
+          self.IsActive(false);
           return;
         }
 
-        var self = this;
         self.RaceId = data.RaceId;
         self.IsComplete = ko.observable(data.IsComplete);
         self.StartTime = ko.observable(data.StartTime);
         self.EndTime = ko.observable(data.EndTime);
 
-        var mappedRacers = $map(data.Racers, function (item) {
+        var mappedDrivers = $.map(data.Drivers, function (item) {
           return new CurrentRacer(item);
         });
-        self.Racers = ko.observableArray(mappedRacers);
+        self.Drivers = ko.observableArray(mappedDrivers);
 
         self.IsInProgress = function () {
           return !self.IsComplete;
@@ -152,7 +159,7 @@
           });
 
           self.Leagues(mappedLeagues);
-          self.CurrentRace = new CurrentRace(currentRace);
+          self.CurrentRace(new CurrentRace(currentRace));
         };
 
         race.client.updateRace = function (currentRace) {
