@@ -602,14 +602,17 @@ tr.pager td {
 ********************/
 .gold {
   color: #daa520;
+  text-shadow: #F3DE41 0 0 15px;
 }
 
 .silver {
   color: #c2c2c2;
+  text-shadow: #FAFAFA 0 0 10px;
 }
 
 .bronze {
   color: #da7220;
+  text-shadow: #F78B16 0 0 5px;
 }
 
 .home-racer-container {
