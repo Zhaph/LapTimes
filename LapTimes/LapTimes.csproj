@@ -25,6 +25,10 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <IncludeIisSettings>true</IncludeIisSettings>
+    <DeployIisAppPath>LapTimes</DeployIisAppPath>
+    <DeployIisAppPhysicalPath>C:\inetpub\wwwroot\LapTimes</DeployIisAppPhysicalPath>
+    <PublishDatabases>false</PublishDatabases>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -451,10 +455,10 @@
     <Content Include="Areas\ManageRaces\Views\Cars\Edit.cshtml" />
     <Content Include="Areas\ManageRaces\Views\Cars\Delete.cshtml" />
     <Content Include="Areas\ManageRaces\Views\Home\Index.cshtml" />
-    <None Include="Content\Font-Awesome\fonts\fontawesome-webfont.eot" />
-    <None Include="Content\Font-Awesome\fonts\fontawesome-webfont.ttf" />
-    <None Include="Content\Font-Awesome\fonts\fontawesome-webfont.woff" />
-    <None Include="Content\Font-Awesome\fonts\FontAwesome.otf" />
+    <Content Include="Content\Font-Awesome\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\Font-Awesome\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\Font-Awesome\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\Font-Awesome\fonts\FontAwesome.otf" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
