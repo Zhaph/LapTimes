@@ -5,11 +5,12 @@
     <section class="featured">
         <div class="content-wrapper" data-bind="with: CurrentRace">
           <hgroup class="title">
-              <h1>@ViewBag.Title</h1>
-              <h2 data-bind="visible: !IsActive">@ViewBag.Message</h2>
-              <h2 data-bind="visible: IsActive">We have a race!</h2>
+            <h1>@ViewBag.Title</h1>
+            <h2 data-bind="visible: !IsActive()">@ViewBag.Message</h2>
+            <h2 data-bind="visible: IsActive()">We have a race!</h2>
           </hgroup>
-          <div id="raceDetails" data-bind="visible: IsActive  && IsInProgress">
+          <!-- ko if: IsActive() -->
+          <div id="raceDetails">
             <ul class="home-current-racers" data-bind="foreach: Drivers">
               <li>
                 <i class="fa fa-tachometer"></i> 
@@ -19,6 +20,7 @@
               </li>
             </ul>
           </div>
+          <!-- /ko -->
         </div>
     </section>
 }
@@ -123,6 +125,7 @@
 
         if (!data) {
           self.IsActive(false);
+          self.IsInProgress = false;
           return;
         }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.Entity;
 using System.Linq;
 
 namespace LapTimes.Models
@@ -41,9 +42,13 @@ namespace LapTimes.Models
 
     public Race CurrentRace()
     {
-      IOrderedQueryable<Race> races = loadRaces();
+      IOrderedQueryable<Race> races = _context.Races;
 
-      return (from race in races where !race.IsComplete select race).FirstOrDefault();
+      var currentRace = (from race in races where !race.IsComplete select race).FirstOrDefault();
+      var drivers = _context.Entry(currentRace);
+      drivers.Collection(e => e.Drivers).Query().OrderBy(d => d.Lane).Include("Car").Load();
+
+      return currentRace;
     }
 
     public Race GetRace(int id)

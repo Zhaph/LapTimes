@@ -43,3 +43,53 @@
     <li>@Html.ActionLink("Manage Cars", "Index", "Cars")</li>
   </ul>
 </aside>
+
+@section scripts
+{
+  <script>
+    $(document).ready(function () {
+      var drivers = $('[id*="RacerId"]');
+      var driverOptions = drivers.find('option');
+      var cars = $('[id*="CarId"]');
+
+      drivers.change(function () {
+        var val = $(this).val();
+
+        var selected = [];
+        selected.push(val);
+
+        drivers.not($(this)).each(function (i, element) {
+          if ($(element).val()) {
+            // We have a selected value
+            if (selected.indexOf($(element).val()) < 0) {
+              // Current item also isn't already selected...
+              selected.push($(element).val());
+            } else {
+              // find option that isn't selected...
+              driverOptions.each(function (j, option) {
+                if (selected.indexOf($(option).val()) < 0) {
+                  selected.push($(option).val());
+                  $(element).val($(option).val());
+                }
+              });
+            }
+          }
+        });
+      });
+
+      cars.change(function () {
+        var val = $(this).val();
+
+        cars.not($(this)).each(function (i, element) {
+          if ($(element).val() && $(element).val() == val) {
+            $(element).val('');
+          }
+        });
+      });
+    });
+
+    function isInArray(array, item) {
+      
+    }
+  </script>
+}
