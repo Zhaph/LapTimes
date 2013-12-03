@@ -30,7 +30,6 @@ namespace LapTimes.Models
     public int LeagueId { get; set; }
     [ForeignKey("LeagueId")]
     [Display(Name = "League")]
-    [JsonIgnore]
     public League League { get; set; }
   }
 

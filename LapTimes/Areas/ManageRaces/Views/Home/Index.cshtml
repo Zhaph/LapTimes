@@ -41,21 +41,29 @@
         <i class="fa fa-tachometer"></i> 
         In lane @Html.DisplayFor(model => model.Drivers[i].Lane): 
         <span class="home-driver-name">@Html.DisplayFor(model => model.Drivers[i].Racer.Name)</span> 
-        is driving <span class="home-car-name">@Html.DisplayFor(model => model.Drivers[i].Car.Name)</span>
+        is driving car number <span class="home-car-name">@Html.DisplayFor(model => model.Drivers[i].Car.Name)</span>
       </li>
     }
     </ul>
     <!-- Set up Knockout Stopwatches... -->
-    <div>Time: <span id="time"></span></div>
+    <h3>Time:</h3>
 
-    <input id="rawStopwatch" type="text" value="0" /><br />
-    <input class="stopwatch" id="stopwatch" type="text" value="00:00.000" /><br>
-    <input class="button" id="startandstopbutton" type="button" value="Start" /><br>
-    <input class="button" id="marklapbutton" type="button" value="10 Laps Complete!" /><br>
-    <input class="button" id="resetbutton" type="button" value="Reset Race" /><br>
+    <input id="rawStopwatch" type="hidden" value="0" />
+    <input class="stopwatch" id="stopwatch" type="text" value="00:00.000" /><br/>
+    <input class="button" id="startandstopbutton" type="button" value="Start" /><br/>
+    <input class="button" id="marklapbutton" type="button" value="10 Laps Complete!" /><br/>
+    <input class="button" id="resetbutton" type="button" value="Reset Race" /><br/>
     <ol data-bind="foreach: LaneTimes">
-      <li data-bind="text: convertTime($data)"></li>
+      <li>
+        <span class="race-tiem" data-bind="text: convertTime($data)"></span>
+        <select class="finished-times" data-bind="attr: {'data-val': $index}, 
+                           options: $root.CurrentRace().Drivers(),
+                           optionsText: function (item) {  return item.Lane() + '. ' + item.Name() + ' (' + item.Car() + ')';},
+                           optionsValue: 'RacerId'
+                           " ></select>
+      </li>
     </ol>
+    <input type="button" class="button" id="submitTimes" value="Finish Race!" data-bind="visible: LaneTimes().length == numberOfLanes, click: updateTimes"/>
   </div>
   }
 </article>
@@ -132,26 +140,23 @@
             x.start();
             $(this).attr('value', 'Stop');
           } else {
-            clockTimer = null;
-            x.stop();
-            vm.RaceStopped();
-            $(this).attr('value', 'Start');
+            stopTimer(true);
           }
         });
 
         $('#marklapbutton').click(function(){
           if (x.isRunning()) {
-            vm.LaneTimes.push(x.time());
-            finishedLanes++;
+              vm.LaneTimes.push(x.time());
+              finishedLanes++;
             if (finishedLanes >= numberOfLanes) {
-              $('#startandstopbutton').click();
+              stopTimer(false);
             }
           }
         });
 
         $('#resetbutton').click(function(){
           if (x.isRunning()) {
-            $('#startandstopbutton').click();
+            stopTimer(true);
           }
           vm.LaneTimes.removeAll();
           finishedLanes = 0;
@@ -164,6 +169,13 @@
           $(rawTime).val(x.time());
         }
 
+        function stopTimer(aborted) {
+          clockTimer = null;
+          x.stop();
+          $('#startandstopbutton').attr('value', 'Start');
+          vm.RaceStopped(aborted);
+        }
+
         // Set Up Knockout/SignalR for the Races
 
         function RaceViewModel() {
@@ -173,21 +185,32 @@
 
           var race = $.connection.raceHub;
 
-          // Initializes the view model
-          self.init = function () {
-            race.server.getCurrentRace();
-          }
+          self.updateTimes = function() {
+            var laneResults = [];
 
-          race.client.getCurrentRace = function (currentRace) {
+            for (var i = 0; i < numberOfLanes; i++) {
+              var racer = $("select[data-val=" + i + "]");
+              laneResults.push({ RacerId: $(racer).val(), RaceTime: self.LaneTimes()[i] });
+            }
+
+            race.server.finishRace(self.CurrentRace().RaceId, laneResults);
+          };
+
+          // Initializes the view model
+          self.init = function() {
+            race.server.getCurrentRace();
+          };
+
+          race.client.getCurrentRace = function(currentRace) {
             self.CurrentRace(new CurrentRace(currentRace));
-          }
+          };
 
           self.RaceStarted = function(){
             race.server.startRace(self.CurrentRace().RaceId);
           };
 
-          self.RaceStopped = function(){
-            race.server.stopRace(self.CurrentRace().RaceId);
+          self.RaceStopped = function(aborted){
+            race.server.stopRace(self.CurrentRace().RaceId, aborted);
           };
 
         }

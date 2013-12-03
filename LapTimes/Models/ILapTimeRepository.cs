@@ -5,7 +5,7 @@ namespace LapTimes.Models
   public interface ILapTimeRepository
   {
     // Leagues
-    IOrderedQueryable<League> GetCurrentLeaderBoards();
+    IQueryable<IGrouping<League, Racer>> GetCurrentLeaderBoards();
     void AddLeague(League league);
 
     // ClassNames

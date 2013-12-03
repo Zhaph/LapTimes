@@ -53,7 +53,7 @@ function CurrentRacer(data) {
   self.Car = ko.observable(data.Car.Name);
   self.Lane = ko.observable(data.Lane);
   self.RawRaceTime = ko.observable(data.RawRaceTime);
-  self.RawBestTime = ko.observable(data.RawBestTime);
+  self.RawBestTime = ko.observable(data.Racer.RawBestTime);
 
   self.RaceTime = function () {
     var time = self.RawRaceTime();

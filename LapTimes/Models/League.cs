@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Newtonsoft.Json;
 
 namespace LapTimes.Models
 {
@@ -18,6 +19,7 @@ namespace LapTimes.Models
     [Display(Name = "League Description")]
     public string Description { get; set; }
 
+    [JsonIgnore]
     public List<Racer> Racers { get; set; } 
   }
 }
