@@ -52,7 +52,7 @@
     <input class="stopwatch" id="stopwatch" type="text" value="00:00.000" /><br>
     <input class="button" id="startandstopbutton" type="button" value="Start" /><br>
     <input class="button" id="marklapbutton" type="button" value="10 Laps Complete!" /><br>
-    <input class="button" id="resetbutton" type="button" value="Reset Stopwatch" /><br>
+    <input class="button" id="resetbutton" type="button" value="Reset Race" /><br>
     <ol data-bind="foreach: LaneTimes">
       <li data-bind="text: convertTime($data)"></li>
     </ol>
@@ -127,13 +127,15 @@
 
         $('#startandstopbutton').click(function(){
           if (!x.isRunning()) {
-          vm.RaceStarted();
-          clockTimer = setInterval(update, 1);
-          x.start();
+            vm.RaceStarted();
+            clockTimer = setInterval(update, 1);
+            x.start();
+            $(this).attr('value', 'Stop');
           } else {
-          clockTimer = null;
-          x.stop();
-          vm.RaceStopped();
+            clockTimer = null;
+            x.stop();
+            vm.RaceStopped();
+            $(this).attr('value', 'Start');
           }
         });
 
@@ -147,6 +149,15 @@
           }
         });
 
+        $('#resetbutton').click(function(){
+          if (x.isRunning()) {
+            $('#startandstopbutton').click();
+          }
+          vm.LaneTimes.removeAll();
+          finishedLanes = 0;
+          x.reset();
+          update();
+        });
 
         function update(){
           $(formattedTime).val(convertTime(x.time()));
