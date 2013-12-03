@@ -40,6 +40,11 @@ namespace LapTimes
                   "~/Content/themes/base/jquery.ui.datepicker.css",
                   "~/Content/themes/base/jquery.ui.progressbar.css",
                   "~/Content/themes/base/jquery.ui.theme.css"));
+
+      bundles.Add(new ScriptBundle("~/bundles/Knockout").Include(
+        "~/Scripts/jquery.signalR-1.1.3.js",
+        "~/Scripts/knockout-2.1.0.js",
+        "~/Scripts/models.js"));
     }
   }
 }

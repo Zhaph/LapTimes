@@ -46,7 +46,7 @@ namespace LapTimes.Models
 
       var currentRace = (from race in races where !race.IsComplete select race).FirstOrDefault();
       var drivers = _context.Entry(currentRace);
-      drivers.Collection(e => e.Drivers).Query().OrderBy(d => d.Lane).Include("Car").Load();
+      drivers.Collection(e => e.Drivers).Query().OrderBy(d => d.Lane).Include(d => d.Car).Include(d => d.Racer).Load();
 
       return currentRace;
     }

@@ -615,6 +615,18 @@ tr.pager td {
   text-shadow: #F78B16 0 0 5px;
 }
 
+.ready {
+  color: #ffcc00;
+}
+
+.gogogo {
+  color: #00aa33;
+}
+
+.finished {
+  color: #cc1500;
+}
+
 .home-racer-container {
   text-align: center;
 }

@@ -32,7 +32,31 @@
   }
   else
   { 
-    // Set up Knockout Stopwatches...
+  <div id="raceDetails">
+    @Html.HiddenFor(model => model.RaceId)
+    <ul class="home-current-racers">
+    @for (int i = 0; i < Model.Drivers.Count(); i++)
+    {
+      <li>
+        <i class="fa fa-tachometer"></i> 
+        In lane @Html.DisplayFor(model => model.Drivers[i].Lane): 
+        <span class="home-driver-name">@Html.DisplayFor(model => model.Drivers[i].Racer.Name)</span> 
+        is driving <span class="home-car-name">@Html.DisplayFor(model => model.Drivers[i].Car.Name)</span>
+      </li>
+    }
+    </ul>
+    <!-- Set up Knockout Stopwatches... -->
+    <div>Time: <span id="time"></span></div>
+
+    <input id="rawStopwatch" type="text" value="0" /><br />
+    <input class="stopwatch" id="stopwatch" type="text" value="00:00.000" /><br>
+    <input class="button" id="startandstopbutton" type="button" value="Start" /><br>
+    <input class="button" id="marklapbutton" type="button" value="10 Laps Complete!" /><br>
+    <input class="button" id="resetbutton" type="button" value="Reset Stopwatch" /><br>
+    <ol data-bind="foreach: LaneTimes">
+      <li data-bind="text: convertTime($data)"></li>
+    </ol>
+  </div>
   }
 </article>
 
@@ -46,50 +70,114 @@
 
 @section scripts
 {
+  @Scripts.Render("~/bundles/Knockout")
+  <script src="~/signalr/hubs"></script>
+
   <script>
-    $(document).ready(function () {
+   var numberOfLanes = @ViewBag.NumberOfLanes;
+
+    $(function () {
       var drivers = $('[id*="RacerId"]');
       var driverOptions = drivers.find('option');
       var cars = $('[id*="CarId"]');
 
-      drivers.change(function () {
-        var val = $(this).val();
+      if (drivers.length > 0) {
+        drivers.change(function () {
+          var val = $(this).val();
 
-        var selected = [];
-        selected.push(val);
+          var selected = [];
+          selected.push(val);
 
-        drivers.not($(this)).each(function (i, element) {
-          if ($(element).val()) {
-            // We have a selected value
-            if (selected.indexOf($(element).val()) < 0) {
-              // Current item also isn't already selected...
-              selected.push($(element).val());
-            } else {
-              // find option that isn't selected...
-              driverOptions.each(function (j, option) {
-                if (selected.indexOf($(option).val()) < 0) {
-                  selected.push($(option).val());
-                  $(element).val($(option).val());
-                }
-              });
+          drivers.not($(this)).each(function (i, element) {
+            if ($(element).val()) {
+              // We have a selected value
+              if (selected.indexOf($(element).val()) < 0) {
+                // Current item also isn't already selected...
+                selected.push($(element).val());
+              } else {
+                // find option that isn't selected...
+                driverOptions.each(function (j, option) {
+                  if (selected.indexOf($(option).val()) < 0) {
+                    selected.push($(option).val());
+                    $(element).val($(option).val());
+                  }
+                });
+              }
+            }
+          });
+        });
+
+        cars.change(function () {
+          var val = $(this).val();
+
+          cars.not($(this)).each(function (i, element) {
+            if ($(element).val() && $(element).val() == val) {
+              $(element).val('');
+            }
+          });
+        });
+      }
+      else
+      {
+        var x = new clsStopwatch();
+        var rawTime = $('#rawStopwatch');
+        var formattedTime = $('#stopwatch');
+        var clockTimer;
+        var finishedLanes = 0;
+
+        $('#startandstopbutton').click(function(){
+          if (!x.isRunning()) {
+          clockTimer = setInterval(update, 1);
+          x.start();
+          } else {
+          clockTimer = null;
+          x.stop();
+          }
+        });
+
+        $('#marklapbutton').click(function(){
+          if (x.isRunning()) {
+            vm.LaneTimes.push(x.time());
+            finishedLanes++;
+            if (finishedLanes >= numberOfLanes) {
+              $('#startandstopbutton').click();
             }
           }
         });
-      });
 
-      cars.change(function () {
-        var val = $(this).val();
 
-        cars.not($(this)).each(function (i, element) {
-          if ($(element).val() && $(element).val() == val) {
-            $(element).val('');
+        function update(){
+          $(formattedTime).val(convertTime(x.time()));
+          $(rawTime).val(x.time());
+        }
+
+        // Set Up Knockout/SignalR for the Races
+
+        function RaceViewModel() {
+          var self = this;
+          self.CurrentRace = ko.observable();
+          self.LaneTimes = ko.observableArray();
+
+          var race = $.connection.raceHub;
+
+          // Initializes the view model
+          self.init = function () {
+            race.server.getCurrentRace();
           }
-        });
-      });
+
+          race.client.getCurrentRace = function (currentRace) {
+            self.CurrentRace(new CurrentRace(currentRace));
+          }
+        }
+
+        var vm = new RaceViewModel();
+        $.connection.hub.start(function () { vm.init(); });
+
+        ko.applyBindings(vm);
+      }
     });
 
-    function isInArray(array, item) {
-      
-    }
+
+ 
   </script>
 }
