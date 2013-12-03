@@ -36,11 +36,13 @@
 }
 
 function League(data) {
+  // Incoming data is now an array of drivers, each of which should have the same league.
   var self = this;
-  self.LeagueId = data.LeagueId;
-  self.Name = ko.observable(data.Name);
+  var league = data[0].League;
+  self.LeagueId = league.LeagueId;
+  self.Name = ko.observable(league.Name);
 
-  var mappedRacers = $.map(data.Racers, function (item) {
+  var mappedRacers = $.map(data, function (item) {
     return new Racer(item);
   });
   self.Racers = ko.observableArray(mappedRacers);
