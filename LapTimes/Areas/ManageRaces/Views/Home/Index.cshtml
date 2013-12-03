@@ -127,11 +127,13 @@
 
         $('#startandstopbutton').click(function(){
           if (!x.isRunning()) {
+          vm.RaceStarted();
           clockTimer = setInterval(update, 1);
           x.start();
           } else {
           clockTimer = null;
           x.stop();
+          vm.RaceStopped();
           }
         });
 
@@ -168,6 +170,15 @@
           race.client.getCurrentRace = function (currentRace) {
             self.CurrentRace(new CurrentRace(currentRace));
           }
+
+          self.RaceStarted = function(){
+            race.server.startRace(self.CurrentRace().RaceId);
+          };
+
+          self.RaceStopped = function(){
+            race.server.stopRace(self.CurrentRace().RaceId);
+          };
+
         }
 
         var vm = new RaceViewModel();

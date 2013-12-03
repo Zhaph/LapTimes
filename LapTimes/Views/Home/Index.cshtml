@@ -78,6 +78,7 @@
         };
 
         race.client.updateRace = function (currentRace) {
+          self.CurrentRace(new CurrentRace(currentRace));
           var raceStatus = $('#raceStatus');
           if (!currentRace.IsComplete) {
             raceStatus.html("Race in progress!");

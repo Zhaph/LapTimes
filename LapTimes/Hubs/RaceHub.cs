@@ -19,6 +19,31 @@ namespace LapTimes.Hubs
       _repo = repo;
     }
 
+    public void StartRace(int raceId)
+    {
+      var currentRace = _repo.CurrentRace();
+
+      if (currentRace.RaceId == raceId)
+      {
+        currentRace.StartTime = DateTime.Now;
+        Clients.All.updateRace(currentRace);
+      }
+    }
+
+    public void StopRace(int raceId)
+    {
+      var currentRace = _repo.CurrentRace();
+
+      if (currentRace.RaceId == raceId)
+      {
+        currentRace.StartTime = DateTime.Now;
+        currentRace.EndTime = DateTime.Now;
+        currentRace.IsComplete = true;
+        Clients.All.updateRace(currentRace);
+      }
+    }
+
+
     public void UpdateRace(Race currentRace)
     {
       Clients.All.updateRace(currentRace);
