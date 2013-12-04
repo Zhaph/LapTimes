@@ -11,7 +11,7 @@ namespace LapTimes.Models
 
     public List<List<Racer>> GetCurrentLeaderBoards()
     {
-      var racers = _context.Racers.Include(r => r.League);
+      var racers = _context.Racers.Include(r => r.League).Include(r => r.ClassName);
 
       var leagues = new List<List<Racer>>();
 
@@ -64,6 +64,15 @@ namespace LapTimes.Models
     public void Save()
     {
       _context.SaveChanges();
+    }
+
+    public IOrderedQueryable<Racer> GetRacersStartingWith(string query)
+    {
+      return
+        _context.Racers.Include(r => r.League)
+                .Include(r => r.ClassName)
+                .Where(r => r.Name.StartsWith(query))
+                .OrderBy(r => r.Name);
     }
 
     private void loadOrderedDrivers(Race currentRace)

@@ -71,12 +71,17 @@ function Racer(data) {
   var self = this;
   self.RacerId = data.RacerId;
   self.Name = ko.observable(data.Name);
+  self.Class = ko.observable(data.ClassName.Name);
   self.RawBestTime = ko.observable(data.RawBestTime);
 
   self.BestTime = function () {
     var time = self.RawBestTime();
 
     return convertTime(time);
+  };
+
+  self.FormattedName = function () {
+    return self.Name() + " " + self.Class();
   };
 }
 

@@ -11,16 +11,34 @@ namespace LapTimes.Areas.ManageRacers.Controllers
 {
     public class RacersController : Controller
     {
-        private LapTimesContext db = new LapTimesContext();
+      private LapTimesContext db = new LapTimesContext();
 
-        //
+      private ILapTimeRepository _repo;
+
+      public RacersController(): this(new LapTimeRepository())
+      {}
+
+      public RacersController(ILapTimeRepository repo)
+      {
+        _repo = repo;
+      }
+
+      //
         // GET: /ManageRacers/Racers/
 
         public ActionResult Index()
         {
             var racers = db.Racers.Include(r => r.ClassName).Include(r => r.League);
-            return View(racers.ToList());
+            return View(racers);
         }
+
+      [HttpPost]
+      public ActionResult Index(string filter)
+      {
+        var racers = _repo.GetRacersStartingWith(filter);
+
+        return View(racers);
+      }
 
         //
         // GET: /ManageRacers/Racers/Details/5
@@ -132,7 +150,7 @@ namespace LapTimes.Areas.ManageRacers.Controllers
         if (!string.IsNullOrEmpty(q) && limit > 0)
         {
           // TODO: Caching?
-          var racers = db.Racers.Where(r => r.Name.StartsWith(q)).OrderBy(r => r.Name).Take(limit).Select(r => new {id = r.RacerId, label= r.Name, name = r.Name});
+          var racers = _repo.GetRacersStartingWith(q).Take(limit).Select(r => new {id = r.RacerId, label= r.Name, name = r.Name});
 
           return Json(racers, JsonRequestBehavior.AllowGet);
         }

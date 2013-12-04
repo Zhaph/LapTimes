@@ -29,5 +29,6 @@ namespace LapTimes.Models
     IOrderedQueryable<Racer> GetRacers(string nameStartsWith); 
     void AddRacer(Racer racer);
     void Save();
+    IOrderedQueryable<Racer> GetRacersStartingWith(string query);
   }
 }
