@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 
@@ -8,16 +9,18 @@ namespace LapTimes.Models
   {
     private readonly LapTimesContext _context = new LapTimesContext();
 
-    public IQueryable<IGrouping<League, Racer>> GetCurrentLeaderBoards()
+    public List<List<Racer>> GetCurrentLeaderBoards()
     {
-//      var leagues = _context.Leagues.Include(l => l.Racers).OrderBy(l=> l.LeagueId);
+      var racers = _context.Racers.Include(r => r.League);
 
-      IQueryable<IGrouping<League, Racer>> leagues = from r in _context.Racers
-                    where r.RawBestTime != 0
-                    orderby r.RawBestTime 
-                    group r by r.League
-                    into league
-                    select league;
+      var leagues = new List<List<Racer>>();
+
+      foreach (var league in _context.Leagues)
+      {
+        var driversInLeague = racers.Where(r => r.LeagueId == league.LeagueId && r.RawBestTime > 0).OrderBy(r => r.RawBestTime).Take(10).ToList();
+
+        leagues.Add(driversInLeague);
+      }
 
       return leagues;
     }
@@ -37,7 +40,7 @@ namespace LapTimes.Models
     {
       IOrderedQueryable<Race> races = _context.Races;
 
-      var currentRace = (from race in races where !race.IsComplete && race.RaceId == id select race).FirstOrDefault();
+      var currentRace = (from race in races where race.RaceId == id select race).FirstOrDefault();
       loadOrderedDrivers(currentRace);
 
       return currentRace;

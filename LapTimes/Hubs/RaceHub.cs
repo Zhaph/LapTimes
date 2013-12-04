@@ -46,6 +46,7 @@ namespace LapTimes.Hubs
         else
         {
           currentRace.StartTime = null;
+          currentRace.StartTime = null;
         }
 
         _repo.Save();
@@ -73,7 +74,7 @@ namespace LapTimes.Hubs
 
       _repo.Save();
 
-      GetAllLeagues();
+      Clients.All.getAllLeagues(_repo.GetCurrentLeaderBoards(), currentRace);
     }
 
     public void UpdateRace(Race currentRace)

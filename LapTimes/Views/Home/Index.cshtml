@@ -7,7 +7,7 @@
           <hgroup class="title">
             <h1>@ViewBag.Title</h1>
             <h2 data-bind="visible: !IsActive()">@ViewBag.Message</h2>
-            <h2 data-bind="visible: IsActive()">We have a race!</h2>
+            <h2 id="raceStatus" data-bind="visible: IsActive()">We have a race!</h2>
           </hgroup>
           <!-- ko if: IsActive() -->
           <div id="raceDetails">
@@ -81,7 +81,11 @@
           self.CurrentRace(new CurrentRace(currentRace));
           var raceStatus = $('#raceStatus');
           if (!currentRace.IsComplete) {
-            raceStatus.html("Race in progress!");
+            if (!currentRace.StartTime) {
+              raceStatus.html("We have a race!");
+            } else {
+              raceStatus.html("Race in progress!");
+            }
           }
           else {
             raceStatus.html("Race complete!");

@@ -20,17 +20,20 @@
   self.Drivers = ko.observableArray(mappedDrivers);
 
   self.State = ko.computed(function () {
-    if (!self.IsComplete() && !self.StartTime()) {
+    // if StartTime is null, the race hasn't started
+    if (!self.StartTime()) {
       // return "ready";
-      return "rgb(255, 239, 50)";
+      return "#cc1500";
     }
-    else if (!self.IsComplete()) {
+    // If EndTime is null, the race hasn't finished
+    else if (!self.EndTime()) {
       // return "gogogo";
       return "#00aa33";
     }
+    // The race has stopped, and we're waiting for confirmation of the winner
     else {
       // return "finished";
-      return "#cc1500";
+      return "rgb(255, 239, 50)";
     }
   });
 }

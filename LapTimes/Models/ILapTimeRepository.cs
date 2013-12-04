@@ -1,11 +1,12 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace LapTimes.Models
 {
   public interface ILapTimeRepository
   {
     // Leagues
-    IQueryable<IGrouping<League, Racer>> GetCurrentLeaderBoards();
+    List<List<Racer>> GetCurrentLeaderBoards();
     void AddLeague(League league);
 
     // ClassNames
