@@ -23,7 +23,7 @@
     @Html.HiddenFor(model => model.RacerId)
 
     <div class="editor-label">
-      <label for="DriverSearch">Driver Name:</label>
+      @Html.LabelFor(model => model.Name, "Driver Name")
     </div>
     <div class="editor-field">
       @Html.EditorFor(model => model.Name)
@@ -60,6 +60,7 @@
     <li>@Html.ActionLink("Manage Racers", "Index", "Racers")</li>
     <li>@Html.ActionLink("Manage Classes", "Index", "Classes")</li>
     <li>@Html.ActionLink("Manage Leagues", "Index", "Leagues")</li>
+    <li>@Html.ActionLink("Run a Races", "Index", "Home", new { area = "ManageRaces" }, null)</li>
   </ul>
 </aside>
 

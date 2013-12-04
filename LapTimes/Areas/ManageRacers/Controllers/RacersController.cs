@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using LapTimes.Areas.ManageRacers.Models;
 using LapTimes.Models;
 
 namespace LapTimes.Areas.ManageRacers.Controllers
@@ -29,15 +30,20 @@ namespace LapTimes.Areas.ManageRacers.Controllers
         public ActionResult Index()
         {
             var racers = db.Racers.Include(r => r.ClassName).Include(r => r.League);
-            return View(racers);
+            return View(new RacersHomeModel {Filter = string.Empty, Racers = racers});
         }
 
       [HttpPost]
       public ActionResult Index(string filter)
       {
-        var racers = _repo.GetRacersStartingWith(filter);
+        if (!string.IsNullOrEmpty(filter))
+        {
+          var racers = _repo.GetRacersStartingWith(filter);
 
-        return View(racers);
+          return View(new RacersHomeModel {Filter = filter, Racers = racers});
+        }
+
+        return RedirectToAction("Index");
       }
 
         //

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<LapTimes.Models.Racer>
+﻿@model LapTimes.Areas.ManageRacers.Models.RacersHomeModel
 
 @{
   ViewBag.Title = "Manage Racers";
@@ -8,30 +8,57 @@
   <h1>@ViewBag.Title</h1>
 </hgroup>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
+<article>
+@using (Html.BeginForm())
+{
+  <fieldset>
+    <legend>Filter Drivers</legend>
+
+    <div class="editor-label">
+      @Html.LabelFor(model => model.Filter)
+    </div>
+    <div class="editor-field">
+      @Html.EditorFor(model => model.Filter)
+      
+      @if (!string.IsNullOrEmpty(Model.Filter))
+      {
+      <a href="@Url.Action("Index", "Racers")"><i class="fa fa-minus-circle message-error"></i></a>
+      }
+    </div>
+
+    
+    <p>
+      <input type="submit" value="Search" />
+    </p>
+
+  </fieldset>
+}
+  <p>
+  @Html.ActionLink("Create New", "Create")
 </p>
-<table>
+</article>  
+<table width="100%">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.RawBestTime)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IsWaitingForRace)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ClassName.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.League.Name)
-        </th>
-        <th></th>
+      <th>
+        Driver Name
+      </th>
+      <th>
+        Best Time
+      </th>
+      <th>
+        Has Paid?
+      </th>
+      <th>
+        Class
+      </th>
+      <th>
+        League
+      </th>
+      <th></th>
     </tr>
 
-@foreach (var item in Model) {
+@foreach (var item in Model.Racers)
+{
     <tr>
         <td>
           @Html.ActionLink(item.Name, "Details", new { id = item.RacerId })
@@ -49,8 +76,8 @@
             @Html.DisplayFor(modelItem => item.League.Name)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.RacerId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.RacerId })
+            @Html.ActionLink("Edit", "Edit", new { id = item.RacerId }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.RacerId })
         </td>
     </tr>
 }
