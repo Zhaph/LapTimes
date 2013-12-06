@@ -1,0 +1,41 @@
+﻿@model LapTimes.Models.Race
+
+@{
+  ViewBag.Title = string.Format("Edit Race: {0}", Html.DisplayFor(model => model));
+}
+
+<hgroup class="title">
+  <h1>@ViewBag.Title</h1>
+</hgroup>
+
+@using (Html.BeginForm()) {
+  @Html.ValidationSummary(true)
+
+  <fieldset>
+    <legend>Race</legend>
+
+    @Html.HiddenFor(model => model.RaceId)
+    @Html.HiddenFor(model => model.StartTime)
+    @Html.HiddenFor(model => model.EndTime)
+
+    <div class="editor-label">
+      @Html.LabelFor(model => model.IsComplete)
+    </div>
+    <div class="editor-field">
+      @Html.EditorFor(model => model.IsComplete)
+      @Html.ValidationMessageFor(model => model.IsComplete)
+    </div>
+
+    <p>
+      <input type="submit" value="Save" />
+    </p>
+  </fieldset>
+}
+
+<div>
+  @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+  @Scripts.Render("~/bundles/jqueryval")
+}

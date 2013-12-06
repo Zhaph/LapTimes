@@ -1,0 +1,15 @@
+﻿@model LapTimes.Models.Race
+@using System.Text;
+@{
+  var raceName = new StringBuilder();
+  
+  foreach (var driver in Model.Drivers) {
+    if (raceName.Length > 0) {
+      raceName.Append(" vs. ");
+    }
+
+    raceName.AppendFormat("{0} ({1})", driver.Racer.Name, driver.Car.Name);
+  }
+}
+
+@raceName.ToString()

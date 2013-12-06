@@ -24,8 +24,6 @@ namespace LapTimes.Controllers
     {
       ViewBag.Message = "Waiting for a race to begin...";
 
-      ViewBag.Leagues = _lapRepo.GetCurrentLeaderBoards();
-
       return View();
     }
 

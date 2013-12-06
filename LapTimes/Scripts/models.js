@@ -1,4 +1,6 @@
-﻿function CurrentRace(data) {
+﻿var tacho = "fa fa-tachometer ";
+
+function CurrentRace(data) {
   var self = this;
 
   self.IsActive = ko.observable(true);
@@ -22,18 +24,18 @@
   self.State = ko.computed(function () {
     // if StartTime is null, the race hasn't started
     if (!self.StartTime()) {
-      // return "ready";
-      return "#cc1500";
+      return "ready";
+//      return "#cc1500";
     }
     // If EndTime is null, the race hasn't finished
     else if (!self.EndTime()) {
-      // return "gogogo";
-      return "#00aa33";
+      return "gogogo";
+//      return "#00aa33";
     }
     // The race has stopped, and we're waiting for confirmation of the winner
     else {
-      // return "finished";
-      return "rgb(255, 239, 50)";
+      return "finished";
+//      return "rgb(255, 239, 50)";
     }
   });
 }
@@ -41,6 +43,7 @@
 function League(data) {
   // Incoming data is now an array of drivers, each of which should have the same league.
   var self = this;
+
   var league = data[0].League;
   self.LeagueId = league.LeagueId;
   self.Name = ko.observable(league.Name);

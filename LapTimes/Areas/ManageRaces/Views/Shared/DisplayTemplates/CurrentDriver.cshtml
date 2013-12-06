@@ -1,0 +1,11 @@
+﻿@model LapTimes.Models.CurrentDriver
+
+<div class="display-label">
+  @Html.DisplayFor(model => model.Lane).
+  @Html.DisplayFor(model => model.Racer.Name)
+</div>
+
+<div class="display-field">
+  Driving: @Html.DisplayFor(model => model.Car.Name)<br />
+  @Html.DisplayFor(model => model.RawRaceTime)ms
+</div>

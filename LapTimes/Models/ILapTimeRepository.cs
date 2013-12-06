@@ -5,6 +5,8 @@ namespace LapTimes.Models
 {
   public interface ILapTimeRepository
   {
+    int Save();
+
     // Leagues
     List<List<Racer>> GetCurrentLeaderBoards();
     void AddLeague(League league);
@@ -19,8 +21,8 @@ namespace LapTimes.Models
     Race CurrentRace();
     Race GetRace(int id);
     void AddRace(Race race);
-    void DeleteRace(int id);
-    void DeleteRace(Race race);
+    int DeleteRace(int id);
+    int DeleteRace(Race race);
 
     // Racers
     CurrentDriver GetWinner(int raceId);
@@ -28,7 +30,6 @@ namespace LapTimes.Models
     Racer GetRacer(int id);
     IOrderedQueryable<Racer> GetRacers(string nameStartsWith); 
     void AddRacer(Racer racer);
-    void Save();
     IOrderedQueryable<Racer> GetRacersStartingWith(string query);
   }
 }

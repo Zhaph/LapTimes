@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Data;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using LapTimes.Models;
 
@@ -19,6 +16,7 @@ namespace LapTimes.Areas.ManageRacers.Controllers
       {
         ViewBag.ClassId = new SelectList(db.ClassNames.OrderBy(c => c.Name), "ClassId", "Name");
         ViewBag.LeagueId = new SelectList(db.Leagues, "LeagueId", "Name");
+        ViewBag.AtLeastTwoRacers = db.Racers.Where(r => r.IsWaitingForRace).Take(2).Count() == 2;
 
         return View(new Racer{RacerId = 0});
       }

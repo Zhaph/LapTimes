@@ -1,0 +1,49 @@
+﻿@model IEnumerable<LapTimes.Models.Race>
+
+@{
+  ViewBag.Title = "Manage Racers";
+}
+
+<hgroup class="title">
+  <h1>@ViewBag.Title</h1>
+</hgroup>
+
+<p>
+  @Html.ActionLink("Run a new race", "Index", new { Controller = "Home" })
+</p>
+<table>
+  <tr>
+    <th>
+      @Html.DisplayNameFor(model => model.IsComplete)
+    </th>
+    <th>
+      @Html.DisplayNameFor(model => model.StartTime)
+    </th>
+    <th>
+      @Html.DisplayNameFor(model => model.EndTime)
+    </th>
+    <th></th>
+  </tr>
+@foreach (var item in Model) {
+  <tr>
+    <td rowspan="2">
+      @Html.DisplayFor(modelItem => item.IsComplete)
+    </td>
+    <td colspan="2">
+      <a href="@Url.Action("Details", new { id = item.RaceId })">@Html.DisplayFor(modelItem => item)</a>
+    </td>
+    <td rowspan="2">
+      @Html.ActionLink("Edit", "Edit", new { id=item.RaceId }) <br />
+      @Html.ActionLink("Delete", "Delete", new { id=item.RaceId })
+    </td>
+  </tr>
+  <tr>
+    <td>
+      @Html.DisplayFor(modelItem => item.StartTime)
+    </td>
+    <td>
+      @Html.DisplayFor(modelItem => item.EndTime)
+    </td>
+  </tr>
+}
+</table>

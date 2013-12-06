@@ -2,30 +2,34 @@
     ViewBag.Title = "Let's Race!";
 }
 @section featured {
-    <section class="featured">
-        <div class="content-wrapper" data-bind="with: CurrentRace">
-          <hgroup class="title">
-            <h1>@ViewBag.Title</h1>
-            <h2 data-bind="visible: !IsActive()">@ViewBag.Message</h2>
-            <h2 id="raceStatus" data-bind="visible: IsActive()">We have a race!</h2>
-          </hgroup>
-          <!-- ko if: IsActive() -->
-          <div id="raceDetails">
-            <ul class="home-current-racers" data-bind="foreach: Drivers">
-              <li>
-                <i class="fa fa-tachometer" data-bind="style: {color: $parent.State() }"></i> 
-                In lane <span data-bind="text: Lane"></span>: 
-                <span data-bind="text: Name" class="home-driver-name"></span> 
-                is driving car number <span data-bind="text: Car" class="home-car-name"></span>
-              </li>
-            </ul>
-          </div>
-          <!-- /ko -->
-        </div>
-    </section>
+<section class="featured">
+  <div class="content-wrapper" data-bind="with: CurrentRace">
+    <hgroup class="title">
+      <h1>Let's Race:</h1>
+      <h2 data-bind="visible: !IsActive()">@ViewBag.Message</h2>
+      <h2 id="raceStatus" data-bind="visible: IsActive()">We have a race!</h2>
+    </hgroup>
+    <!-- ko if: IsActive() -->
+    <div id="raceDetails">
+      <ul class="home-current-racers" data-bind="foreach: Drivers">
+        <li>
+          <i class="fa fa-tachometer" data-bind="css: { ready: $parent.State() == 'ready', gogogo: $parent.State() == 'gogogo', finished: $parent.State() == 'finished' }"></i> 
+          In lane <span data-bind="text: Lane"></span>: 
+          <span data-bind="text: Name" class="home-driver-name"></span> 
+          is driving car number <span data-bind="text: Car" class="home-car-name"></span>
+        </li>
+      </ul>
+      <ul class="home-reference">
+        <li><i class="fa fa-tachometer ready"></i> Waiting to race</li>
+        <li><i class="fa fa-tachometer gogogo"></i> Race in progress</li>
+        <li><i class="fa fa-tachometer finished"></i> Race is over, waiting for winners</li>
+      </ul>
+    </div>
+    <!-- /ko -->
+  </div>
+</section>
 }
 <h3 style="text-align: center;"><i class="fa fa-flag-checkered fa-lg"></i> Current Leaders <i class="fa fa-flag-checkered fa-lg"></i></h3>
-
 <div data-bind="foreach:Leagues" class="clear-fix">
   <div data-bind="style: { width: $root.getWidth()}" class="float-left home-racer-container">
     <h4 data-bind="text: Name"></h4>
@@ -68,13 +72,23 @@
           race.server.getAllLeagues();
         };
 
-        race.client.getAllLeagues = function (currentLeaderBoards, currentRace) {
+        self.updateLeagues = function (currentLeaderBoards) {
           var mappedLeagues = $.map(currentLeaderBoards, function (item) {
-            return new League(item);
+            if (item && item.length > 0) {
+              return new League(item);
+            }
           });
 
           self.Leagues(mappedLeagues);
+        };
+
+        race.client.getAllLeagues = function (currentLeaderBoards, currentRace) {
+          self.updateLeagues(currentLeaderBoards);
           self.CurrentRace(new CurrentRace(currentRace));
+        };
+
+        race.client.updateLeagues = function (currentLeaderBoards) {
+          self.updateLeagues(currentLeaderBoards);
         };
 
         race.client.updateRace = function (currentRace) {

@@ -1,0 +1,45 @@
+﻿@model LapTimes.Models.Race
+
+@{
+  ViewBag.Title = string.Format("Details For Race: {0}", Html.DisplayFor(model => model));
+}
+
+<hgroup class="title">
+  <h1>@ViewBag.Title</h1>
+</hgroup>
+
+<fieldset>
+  <legend>Race</legend>
+
+  <div class="display-label">
+    @Html.DisplayNameFor(model => model.IsComplete)
+  </div>
+  <div class="display-field">
+    @Html.DisplayFor(model => model.IsComplete)
+  </div>
+
+  <div class="display-label">
+    @Html.DisplayNameFor(model => model.StartTime)
+  </div>
+  <div class="display-field">
+    @Html.DisplayFor(model => model.StartTime)
+  </div>
+
+  <div class="display-label">
+    @Html.DisplayNameFor(model => model.Drivers)
+  </div>
+
+  @Html.DisplayFor(model => model.Drivers)
+
+
+  <div class="display-label">
+    @Html.DisplayNameFor(model => model.EndTime)
+  </div>
+  <div class="display-field">
+    @Html.DisplayFor(model => model.EndTime)
+  </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.RaceId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

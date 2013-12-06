@@ -48,6 +48,10 @@
 
     <p>
       <input type="submit" value="Register" />
+      @if (ViewBag.AtLeastTwoRacers)
+      { 
+       @:| @Html.ActionLink("Start A Race", "Index", new { Controller = "Home", Area = "ManageRaces" }, new { @class = "big-link" })
+      }
     </p>
 
   </fieldset>
@@ -60,7 +64,10 @@
     <li>@Html.ActionLink("Manage Racers", "Index", "Racers")</li>
     <li>@Html.ActionLink("Manage Classes", "Index", "Classes")</li>
     <li>@Html.ActionLink("Manage Leagues", "Index", "Leagues")</li>
-    <li>@Html.ActionLink("Run a Races", "Index", "Home", new { area = "ManageRaces" }, null)</li>
+    @if (ViewBag.AtLeastTwoRacers)
+    {
+    <li>@Html.ActionLink("Start A Race", "Index", "Home", new { area = "ManageRaces" }, null)</li>
+    }
   </ul>
 </aside>
 

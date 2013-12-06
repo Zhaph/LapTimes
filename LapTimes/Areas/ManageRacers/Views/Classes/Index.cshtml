@@ -9,26 +9,24 @@
 </hgroup>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+  @Html.ActionLink("Create a new class", "Create")
 </p>
 <table>
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th></th>
-    </tr>
-
+  <tr>
+    <th>
+      @Html.DisplayNameFor(model => model.Name)
+    </th>
+    <th></th>
+  </tr>
 @foreach (var item in Model) {
-    <tr>
-        <td>
-          @Html.ActionLink(item.Name, "Details", new { id = item.ClassId })
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ClassId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ClassId })
-        </td>
-    </tr>
+  <tr>
+    <td>
+      @Html.ActionLink(item.Name, "Details", new { id = item.ClassId })
+    </td>
+    <td>
+      @Html.ActionLink("Edit", "Edit", new { id=item.ClassId }) |
+      @Html.ActionLink("Delete", "Delete", new { id=item.ClassId })
+    </td>
+  </tr>
 }
-
 </table>

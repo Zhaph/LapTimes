@@ -25,7 +25,6 @@ namespace LapTimes.Models
       return leagues;
     }
 
-
     public Race CurrentRace()
     {
       IOrderedQueryable<Race> races = _context.Races;
@@ -61,11 +60,6 @@ namespace LapTimes.Models
       return null;
     }
 
-    public void Save()
-    {
-      _context.SaveChanges();
-    }
-
     public IOrderedQueryable<Racer> GetRacersStartingWith(string query)
     {
       return
@@ -74,6 +68,45 @@ namespace LapTimes.Models
                 .Where(r => r.Name.StartsWith(query))
                 .OrderBy(r => r.Name);
     }
+
+    public int DeleteRace(int id)
+    {
+      return DeleteRace(GetRace(id));
+    }
+
+    public int DeleteRace(Race race)
+    {
+      var drivers = race.Drivers.ToList();
+      foreach (var driver in drivers)
+      {
+        if (driver.Racer.RawBestTime == driver.RawRaceTime)
+        {
+          // This is the drivers best race, and we're deleting it :(
+          // Update their best time to their next highest race:
+
+          int driverId = driver.RacerId;
+          var nextBest = _context.CurrentDrivers.Where(d => d.RacerId == driverId && d.RaceId != race.RaceId).OrderBy(d => d.RawRaceTime).FirstOrDefault();
+
+          driver.Racer.RawBestTime = null != nextBest ? nextBest.RawRaceTime : 0;
+        }
+
+        _context.CurrentDrivers.Remove(driver);
+      }
+
+      _context.Races.Remove(race);
+
+      return Save();
+    }
+
+    public int Save()
+    {
+      int ret = _context.SaveChanges();
+
+      RaceServer.Instance.BroadcastUpdatedLeagues(GetCurrentLeaderBoards());
+
+      return ret;
+    }
+
 
     private void loadOrderedDrivers(Race currentRace)
     {
@@ -85,7 +118,6 @@ namespace LapTimes.Models
       var drivers = _context.Entry(currentRace);
       drivers.Collection(e => e.Drivers).Query().OrderBy(d => d.Lane).Include(d => d.Car).Include(d => d.Racer).Load();
     }
-
 
     public void AddLeague(League league)
     {
@@ -113,16 +145,6 @@ namespace LapTimes.Models
     }
 
     public void AddRace(Race race)
-    {
-      throw new NotImplementedException();
-    }
-
-    public void DeleteRace(int id)
-    {
-      throw new NotImplementedException();
-    }
-
-    public void DeleteRace(Race race)
     {
       throw new NotImplementedException();
     }

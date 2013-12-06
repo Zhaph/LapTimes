@@ -223,12 +223,12 @@ ul#menu {
 }
 
     .featured .content-wrapper {
-        background-color: rgb(122,192,218);
-        background-image: -ms-linear-gradient(left, #7ac0da 0%, #a4d4e6 100%);
-        background-image: -o-linear-gradient(left, #7ac0da 0%, #a4d4e6 100%);
-        background-image: -webkit-gradient(linear, left top, right top, color-stop(0, #7ac0da), color-stop(1, #a4d4e6));
-        background-image: -webkit-linear-gradient(left, #7ac0da 0%, #a4d4e6 100%);
-        background-image: linear-gradient(left, #7ac0da 0%, #a4d4e6 100%);
+        background-color: rgba(122,192,218, 0);
+        background-image: -ms-linear-gradient(bottom, #7ac0da 0%, rgba(164,212,230, 0) 100%);
+        background-image: -o-linear-gradient(bottom, #7ac0da 0%, rgba(164,212,230, 0) 100%);
+        background-image: -webkit-gradient(linear, left top, right top, color-stop(0, #7ac0da), color-stop(1, rgba(164,212,230, 0)));
+        background-image: -webkit-linear-gradient(bottom, #7ac0da 0%, rgba(164,212,230, 0) 100%);
+        background-image: linear-gradient(bottom, #7ac0da 0%, rgba(164,212,230, 0) 100%);
         color: #3e5667;
         padding: 20px 40px 30px 40px;
     }
@@ -616,7 +616,7 @@ tr.pager td {
 }
 
 .ready {
-  color: #ffcc00;
+  color: #cc1500;
 }
 
 .gogogo {
@@ -624,7 +624,7 @@ tr.pager td {
 }
 
 .finished {
-  color: #cc1500;
+  color: #ffcc00;
 }
 
 .home-racer-container {
@@ -639,11 +639,44 @@ tr.pager td {
 .home-current-racers {
   list-style: none;
   padding: 0 0 5px;
+  text-shadow: 0.1em 0.1em 0.5em #fff ;
+  text-shadow: 0.1em 0.1em 1em #666 ;
 }
 
 .home-driver-name {
   font-weight: 600;
   font-style: italic;
+}
+
+.home-reference 
+{
+  list-style: none;
+}
+
+  .home-reference li 
+  {
+    display: inline;
+    padding: 0 20px 0 0;
+  }
+
+#raceDetails 
+{
+  border: 1px solid #a6dbed;
+  border-radius: 5px;
+  padding: 0 5px;
+  background-color: rgba(122,192,218, 0);
+  background-image: -ms-linear-gradient(top, #7ac0da 0%, rgba(164,212,230, 0) 100%);
+  background-image: -o-linear-gradient(top, #7ac0da 0%, rgba(164,212,230, 0) 100%);
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #7ac0da), color-stop(1, rgba(164,212,230, 0)));
+  background-image: -webkit-linear-gradient(top, #7ac0da 0%, rgba(164,212,230, 0) 100%);
+  background-image: linear-gradient(top, #7ac0da 0%, rgba(164,212,230, 0) 100%);
+}
+
+a.big-link 
+{
+  color: #000;
+  font-weight: bold;
+  font-size: 1.75em;
 }
 
 /********************
