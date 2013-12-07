@@ -64,6 +64,8 @@
     <li>@Html.ActionLink("Manage Racers", "Index", "Racers")</li>
     <li>@Html.ActionLink("Manage Classes", "Index", "Classes")</li>
     <li>@Html.ActionLink("Manage Leagues", "Index", "Leagues")</li>
+    <li>@Html.ActionLink("Manage Races", "Index", "Races", new { area = "ManageRaces" }, null)</li>
+    <li>@Html.ActionLink("Manage Cars", "Index", "Cars", new { area = "ManageRaces" }, null)</li>
     @if (ViewBag.AtLeastTwoRacers)
     {
     <li>@Html.ActionLink("Start A Race", "Index", "Home", new { area = "ManageRaces" }, null)</li>
