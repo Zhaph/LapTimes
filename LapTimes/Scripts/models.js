@@ -1,6 +1,4 @@
-﻿var tacho = "fa fa-tachometer ";
-
-function CurrentRace(data) {
+﻿function CurrentRace(data) {
   var self = this;
 
   self.IsActive = ko.observable(true);
@@ -25,17 +23,14 @@ function CurrentRace(data) {
     // if StartTime is null, the race hasn't started
     if (!self.StartTime()) {
       return "ready";
-//      return "#cc1500";
     }
     // If EndTime is null, the race hasn't finished
     else if (!self.EndTime()) {
       return "gogogo";
-//      return "#00aa33";
     }
     // The race has stopped, and we're waiting for confirmation of the winner
     else {
       return "finished";
-//      return "rgb(255, 239, 50)";
     }
   });
 }
@@ -62,6 +57,8 @@ function CurrentRacer(data) {
   self.Lane = ko.observable(data.Lane);
   self.RawRaceTime = ko.observable(data.RawRaceTime);
   self.RawBestTime = ko.observable(data.Racer.RawBestTime);
+  self.Winner = ko.observable(data.Winner);
+  self.NewPersonalBest = ko.observable(data.NewPersonalBest);
 
   self.RaceTime = function () {
     var time = self.RawRaceTime();

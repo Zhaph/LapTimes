@@ -26,7 +26,7 @@
       @Html.LabelFor(model => model.Name, "Driver Name")
     </div>
     <div class="editor-field">
-      @Html.EditorFor(model => model.Name)
+      @Html.TextBoxFor(model => model.Name, new { autofocus = "autofocus"})
       @Html.ValidationMessageFor(model => model.Name)
     </div>
 
@@ -78,7 +78,7 @@
       minLength: 3,
       source: function (request, response) {
         $.ajax({
-          url: '@Url.Action("GetRacersStartingWith", "Racers")/' + request.term + '/10',
+          url: '@Url.Action("GetUnpaidRacersStartingWith", "Racers")/' + request.term + '/10',
           type: "POST",
           dataType: "json",
           success: function (data) {

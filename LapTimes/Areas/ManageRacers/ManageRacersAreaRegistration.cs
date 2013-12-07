@@ -15,6 +15,12 @@ namespace LapTimes.Areas.ManageRacers
     public override void RegisterArea(AreaRegistrationContext context)
     {
       context.MapRoute(
+        "ManageRacers_Racers_GetUnpaidRacersStartingWith",
+        "ManageRacers/{controller}/{action}/{q}/{limit}",
+        new { controller = "Racers" }
+        );
+
+      context.MapRoute(
         "ManageRacers_Racers_GetRacersStartingWith",
         "ManageRacers/{controller}/{action}/{q}/{limit}",
         new {controller = "Racers"}

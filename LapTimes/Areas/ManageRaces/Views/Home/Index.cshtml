@@ -32,7 +32,7 @@
   }
   else
   { 
-  <div id="raceDetails">
+  <div>
     @Html.HiddenFor(model => model.RaceId)
     <ul class="home-current-racers">
     @for (int i = 0; i < Model.Drivers.Count(); i++)
@@ -203,6 +203,10 @@
 
           race.client.getCurrentRace = function(currentRace) {
             self.CurrentRace(new CurrentRace(currentRace));
+          };
+
+          race.client.RedirectToRace = function() {
+            location.reload(true);
           };
 
           self.RaceStarted = function(){

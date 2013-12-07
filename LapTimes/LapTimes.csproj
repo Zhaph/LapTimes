@@ -227,6 +227,10 @@
     <Compile Include="Migrations\201312020138539_RenameDriversRacers.Designer.cs">
       <DependentUpon>201312020138539_RenameDriversRacers.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201312062111540_WinnerToCurrentDriver.cs" />
+    <Compile Include="Migrations\201312062111540_WinnerToCurrentDriver.Designer.cs">
+      <DependentUpon>201312062111540_WinnerToCurrentDriver.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Car.cs" />
     <Compile Include="Models\ClassName.cs" />
@@ -244,6 +248,10 @@
     <Content Include="Areas\ManageRaces\Views\Shared\EditorTemplates\CurrentDriver.cshtml">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="Content\ausstart.wav" />
+    <Content Include="Content\mw_start.wav" />
+    <Content Include="Content\start.wav" />
+    <Content Include="Content\TheChain.mp3" />
     <Content Include="Content\Font-Awesome\css\font-awesome.css" />
     <Content Include="Content\Font-Awesome\css\font-awesome.min.css" />
     <Content Include="Content\Font-Awesome\fonts\fontawesome-webfont.svg" />
@@ -324,7 +332,9 @@
     <Content Include="Scripts\knockout-2.1.0.js" />
     <Content Include="Scripts\models.js" />
     <Content Include="Scripts\modernizr-2.5.3.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -444,6 +454,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201312020138539_RenameDriversRacers.resx">
       <DependentUpon>201312020138539_RenameDriversRacers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201312062111540_WinnerToCurrentDriver.resx">
+      <DependentUpon>201312062111540_WinnerToCurrentDriver.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

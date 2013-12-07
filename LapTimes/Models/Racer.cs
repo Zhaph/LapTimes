@@ -59,5 +59,10 @@ namespace LapTimes.Models
 
     [Display(Name = "Raw Race Time (ms)")]
     public int RawRaceTime { get; set; }
+
+    public bool Winner { get; set; }
+
+    [NotMapped]
+    public bool NewPersonalBest { get; set; }
   }
 }

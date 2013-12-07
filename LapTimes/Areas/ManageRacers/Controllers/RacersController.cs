@@ -161,10 +161,27 @@ namespace LapTimes.Areas.ManageRacers.Controllers
         return null;
       }
 
-        protected override void Dispose(bool disposing)
+      //
+      // GET: /ManageRacers/Racers/GetRacersStartingWith/q/10
+      public ActionResult GetUnpaidRacersStartingWith(string q, int limit)
+      {
+
+        if (!string.IsNullOrEmpty(q) && limit > 0)
         {
-            db.Dispose();
-            base.Dispose(disposing);
+          // TODO: Caching?
+          var racers = _repo.GetRacersStartingWith(q).Where(r => !r.IsWaitingForRace).Take(limit).Select(r => new { id = r.RacerId, label = r.Name, name = r.Name });
+
+          return Json(racers, JsonRequestBehavior.AllowGet);
         }
+
+        return null;
+      }
+
+
+      protected override void Dispose(bool disposing)
+      {
+          db.Dispose();
+          base.Dispose(disposing);
+      }
     }
 }

@@ -13,10 +13,15 @@
     <div id="raceDetails">
       <ul class="home-current-racers" data-bind="foreach: Drivers">
         <li>
-          <i class="fa fa-tachometer" data-bind="css: { ready: $parent.State() == 'ready', gogogo: $parent.State() == 'gogogo', finished: $parent.State() == 'finished' }"></i> 
+          <i class="fa fa-tachometer" data-bind="css: { ready: $parent.State() == 'ready', gogogo: $parent.State() == 'gogogo', finished: $parent.State() == 'finished' }"></i>
           In lane <span data-bind="text: Lane"></span>: 
           <span data-bind="text: Name" class="home-driver-name"></span> 
           is driving car number <span data-bind="text: Car" class="home-car-name"></span>
+          <!-- ko if: $parent.State() == 'finished' && $parent.IsComplete -->
+          - Finished in: <span class="home-driver-time" data-bind="css: { 'new-pb': NewPersonalBest }, text: RaceTime()"></span>
+          <span data-bind="visible: NewPersonalBest"><i class="fa fa-arrow-left"></i> New Personal Best!</span>
+          <span data-bind="visible: Winner"><i class="fa fa-trophy fa-2x gold"></i> Winner!</span>
+          <!-- /ko -->
         </li>
       </ul>
       <ul class="home-reference">
@@ -53,12 +58,21 @@
   </div>
 </div>
 
+
+<audio src="~/Content/TheChain.mp3#t=2" type="audio/mp3" id="theChain" preload="auto"></audio>
+<audio src="~/Content/Start.wav#t=,3.2" type="audio/wav" id="theStart" preload="auto"></audio>
+
+
 @section scripts {
   @Scripts.Render("~/bundles/Knockout")
   <script src="~/signalr/hubs"></script>
 
   <script>
     $(function () {
+
+      var theChain = $('#theChain').get(0);
+      var vol = 1;
+      var interval = 200;
 
       function LeaguesViewModel() {
         var self = this;
@@ -82,9 +96,52 @@
           self.Leagues(mappedLeagues);
         };
 
+        self.updateRace = function (currentRace) {
+          self.CurrentRace(new CurrentRace(currentRace));
+          var raceStatus = $('#raceStatus');
+          var theStart = $('#theStart').get(0);
+
+          if (self.CurrentRace().IsActive()) {
+            switch (self.CurrentRace().State()) {
+              case "ready":
+                raceStatus.html("We have a race!");
+                theChain.play();
+                break;
+              case "gogogo":
+                raceStatus.html("Race in progress!");
+                theStart.play();
+                break;
+              case "finished":
+                if (currentRace.IsComplete) {
+                  raceStatus.html("Race complete!");
+                } else {
+                  raceStatus.html("Race finished!");
+                  theStart.pause();
+                  theStart.load();
+                  self.fadeOutChain(theChain.volume);
+                }
+            }
+          } else {
+            raceStatus.html("Waiting for a race to begin&helip;");
+          }
+        };
+
+        self.fadeOutChain = function (volume) {
+          var factor = 0.01, speed = 50;
+          if (volume > factor) {
+            setTimeout(function () {
+              self.fadeOutChain(theChain.volume -= factor);
+            }, speed);
+          } else {
+            theChain.pause();
+            theChain.load();
+            theChain.volume = 1;
+          }
+        };
+
         race.client.getAllLeagues = function (currentLeaderBoards, currentRace) {
           self.updateLeagues(currentLeaderBoards);
-          self.CurrentRace(new CurrentRace(currentRace));
+          self.updateRace(currentRace);
         };
 
         race.client.updateLeagues = function (currentLeaderBoards) {
@@ -92,18 +149,7 @@
         };
 
         race.client.updateRace = function (currentRace) {
-          self.CurrentRace(new CurrentRace(currentRace));
-          var raceStatus = $('#raceStatus');
-          if (!currentRace.IsComplete) {
-            if (!currentRace.StartTime) {
-              raceStatus.html("We have a race!");
-            } else {
-              raceStatus.html("Race in progress!");
-            }
-          }
-          else {
-            raceStatus.html("Race complete!");
-          }
+          self.updateRace(currentRace);
         };
 
         self.getWidth = function () {

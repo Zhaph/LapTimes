@@ -30,6 +30,7 @@ namespace LapTimes.Models
       IOrderedQueryable<Race> races = _context.Races;
 
       var currentRace = (from race in races where !race.IsComplete select race).FirstOrDefault();
+//      var currentRace = (from race in races orderby race.EndTime descending select race).FirstOrDefault();
       loadOrderedDrivers(currentRace);
 
       return currentRace;

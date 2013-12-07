@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using LapTimes.Models;
@@ -61,20 +62,26 @@ namespace LapTimes.Hubs
 
       currentRace.IsComplete = true;
 
+      var winningTime = raceTimes.Min(r => r.RaceTime);
+
       foreach (var driver in currentRace.Drivers)
       {
         driver.Racer.IsWaitingForRace = false;
-        driver.RawRaceTime = raceTimes.Single(rt => rt.RacerId == driver.RacerId.ToString()).RaceTime;
+        driver.RawRaceTime = raceTimes.Single(rt => rt.RacerId == driver.RacerId.ToString(CultureInfo.InvariantCulture)).RaceTime;
+
+        driver.Winner = driver.RawRaceTime == winningTime;
 
         if (driver.RawRaceTime < driver.Racer.RawBestTime || driver.Racer.RawBestTime == 0)
         {
+          driver.NewPersonalBest = true;
           driver.Racer.RawBestTime = driver.RawRaceTime;
         }
       }
 
       _repo.Save();
 
-      Clients.All.getAllLeagues(_repo.GetCurrentLeaderBoards(), currentRace);
+      Clients.Caller.RedirectToRace();
+      Clients.Others.getAllLeagues(_repo.GetCurrentLeaderBoards(), currentRace);
     }
 
     public void UpdateRace(Race currentRace)
