@@ -104,12 +104,12 @@ h5, h6 {
 }
 
     .main-content {
-        background: url("../Images/accent.png") no-repeat #e2e2e2;
+        background: #e2e2e2;
         padding: 30px 40px;
     }
 
     .featured + .main-content {
-        background: url("../Images/heroAccent.png") no-repeat #e2e2e2;
+        background: #e2e2e2;
     }
 
 header .content-wrapper {
@@ -223,18 +223,20 @@ ul#menu {
 }
 
     .featured .content-wrapper {
-        background-color: rgba(122,192,218, 0);
-        background-image: -ms-linear-gradient(bottom, #7ac0da 0%, rgba(164,212,230, 0) 100%);
-        background-image: -o-linear-gradient(bottom, #7ac0da 0%, rgba(164,212,230, 0) 100%);
-        background-image: -webkit-gradient(linear, left top, right top, color-stop(0, #7ac0da), color-stop(1, rgba(164,212,230, 0)));
-        background-image: -webkit-linear-gradient(bottom, #7ac0da 0%, rgba(164,212,230, 0) 100%);
-        background-image: linear-gradient(bottom, #7ac0da 0%, rgba(164,212,230, 0) 100%);
-        color: #3e5667;
+        background-color: rgba(227,227,227, 0);
+        background-image: -ms-linear-gradient(bottom, #4a4a4a 0%, rgba(227,227,227, 0) 100%);
+        background-image: -o-linear-gradient(bottom, #4a4a4a 0%, rgba(227,227,227, 0) 100%);
+        background-image: -webkit-gradient(linear, left top, right top, color-stop(0, #4a4a4a), color-stop(1, rgba(227,227,227, 0)));
+        background-image: -webkit-linear-gradient(bottom, #4a4a4a 0%, rgba(227,227,227, 0) 100%);
+        background-image: linear-gradient(bottom, #4a4a4a 0%, rgba(227,227,227, 0) 100%);
+        color: #cadce8;
         padding: 20px 40px 30px 40px;
     }
 
         .featured hgroup.title h1, .featured hgroup.title h2 {
-            color: #fff;
+            color: #cadce8;
+            font-weight: bold;
+            text-shadow: #4a4a4a 0 0 15px;
         }
 
         .featured p {
@@ -616,7 +618,7 @@ tr.pager td {
 }
 
 .ready {
-  color: #cc1500;
+  color: #E02F1B;
 }
 
 .gogogo {
@@ -661,15 +663,15 @@ tr.pager td {
 
 #raceDetails 
 {
-  border: 1px solid #a6dbed;
+  border: 1px solid #cadce8;
   border-radius: 5px;
   padding: 0 5px;
   background-color: rgba(122,192,218, 0);
-  background-image: -ms-linear-gradient(top, #7ac0da 0%, rgba(164,212,230, 0) 100%);
-  background-image: -o-linear-gradient(top, #7ac0da 0%, rgba(164,212,230, 0) 100%);
-  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #7ac0da), color-stop(1, rgba(164,212,230, 0)));
-  background-image: -webkit-linear-gradient(top, #7ac0da 0%, rgba(164,212,230, 0) 100%);
-  background-image: linear-gradient(top, #7ac0da 0%, rgba(164,212,230, 0) 100%);
+  background-image: -ms-linear-gradient(top, #4a4a4a 0%, rgba(227,227,227, 0) 100%);
+  background-image: -o-linear-gradient(top, #4a4a4a 0%, rgba(227,227,227, 0) 100%);
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #4a4a4a), color-stop(1, rgba(227,227,227, 0)));
+  background-image: -webkit-linear-gradient(top, #4a4a4a 0%, rgba(227,227,227, 0) 100%);
+  background-image: linear-gradient(top, #4a4a4a 0%, rgba(227,227,227, 0) 100%);
 }
 
 a.big-link 
