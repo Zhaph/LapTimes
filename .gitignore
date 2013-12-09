@@ -64,3 +64,6 @@ TESTRESULTS
 *.tar
 *.7z
 
+# Manage this yourself... Paid content.
+*.mp3
+*.wav
