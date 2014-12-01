@@ -40,6 +40,10 @@ namespace LapTimes.Areas.ManageRacers.Controllers
         }
 
         Racer foundRacer = db.Racers.Find(racer.RacerId);
+
+        foundRacer.LeagueId = racer.LeagueId;
+        foundRacer.ClassId = racer.ClassId;
+
         foundRacer.IsWaitingForRace = true;
         db.Entry(foundRacer).State = EntityState.Modified;
         db.SaveChanges();

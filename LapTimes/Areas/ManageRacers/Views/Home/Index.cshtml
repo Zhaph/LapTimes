@@ -88,18 +88,18 @@
               return {
                 id: item.id,
                 label: item.label,
-                value: item.name
+                value: item.name,
+                leagueId: item.leagueId,
+                classId: item.classId
               }
             }));
           },
         });},
         select: function (event, ui) {
-          //update the jQuery selector here to your target hidden field
+          //update the hidden field with the Racer Id and the selected class and league (allows editing).
           $('#RacerId').val(ui.item.id);
-          $('#classLabel').hide();
-          $('#classSelect').hide();
-          $('#leagueLabel').hide();
-          $('#leagueSelect').hide();
+          $('#ClassId').val(ui.item.classId);
+          $('#LeagueId').val(ui.item.leagueId);
         }
     });
   </script>
