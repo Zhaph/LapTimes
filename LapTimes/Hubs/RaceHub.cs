@@ -58,7 +58,31 @@ namespace LapTimes.Hubs
 
     public void FinishRace(int raceId, RaceTimes[] raceTimes)
     {
-      Race currentRace = _repo.GetRace(raceId);
+      Race currentRace = saveRaceDetails(raceId, raceTimes);
+
+      Clients.Caller.RedirectToRace();
+      Clients.Others.getAllLeagues(_repo.GetCurrentLeaderBoards(), currentRace);
+    }
+
+    public void FinishRaceString(int raceId, RaceTimesString[] raceTimes)
+    {
+      var newRaceTimes = new RaceTimes[raceTimes.Length];
+
+      for (int i = 0; i < raceTimes.Length; i++)
+      {
+        var raceTime = TimeSpan.Parse(raceTimes[i].RaceTime);
+        newRaceTimes[i] = new RaceTimes{ RacerId = raceTimes[i].RacerId, RaceTime = (int)Math.Round(raceTime.TotalMilliseconds)};
+      }
+
+      Race currentRace = saveRaceDetails(raceId, newRaceTimes);
+
+      Clients.Caller.RedirectToRace();
+      Clients.Others.getAllLeagues(_repo.GetCurrentLeaderBoards(), currentRace);
+    }
+
+    private Race saveRaceDetails(int raceId, RaceTimes[] raceTimes)
+    {
+       var currentRace = _repo.GetRace(raceId);
 
       currentRace.IsComplete = true;
 
@@ -80,8 +104,7 @@ namespace LapTimes.Hubs
 
       _repo.Save();
 
-      Clients.Caller.RedirectToRace();
-      Clients.Others.getAllLeagues(_repo.GetCurrentLeaderBoards(), currentRace);
+      return currentRace;
     }
 
     public void UpdateRace(Race currentRace)
@@ -108,6 +131,11 @@ namespace LapTimes.Hubs
   {
     public string RacerId { get; set; }
     public int RaceTime { get; set; }
+  }
 
+  public class RaceTimesString
+  {
+    public string RacerId { get; set; }
+    public string RaceTime { get; set; }
   }
 }

@@ -190,11 +190,12 @@
             var laneResults = [];
 
             for (var i = 0; i < numberOfLanes; i++) {
+                var time = $("input[data-val=" + i + "]");
               var racer = $("select[data-val=" + i + "]");
-              laneResults.push({ RacerId: $(racer).val(), RaceTime: self.LaneTimes()[i] });
+              laneResults.push({ RacerId: $(racer).val(), RaceTime: $(time).val() });
             }
 
-            race.server.finishRace(self.CurrentRace().RaceId, laneResults);
+            race.server.finishRaceString(self.CurrentRace().RaceId, laneResults);
           };
 
           // Initializes the view model

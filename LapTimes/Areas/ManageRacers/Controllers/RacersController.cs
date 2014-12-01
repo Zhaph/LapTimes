@@ -9,9 +9,9 @@ namespace LapTimes.Areas.ManageRacers.Controllers
 {
     public class RacersController : Controller
     {
-      private LapTimesContext db = new LapTimesContext();
+      private readonly LapTimesContext _db = new LapTimesContext();
 
-      private ILapTimeRepository _repo;
+      private readonly ILapTimeRepository _repo;
 
       public RacersController(): this(new LapTimeRepository())
       {}
@@ -26,7 +26,7 @@ namespace LapTimes.Areas.ManageRacers.Controllers
 
         public ActionResult Index()
         {
-            var racers = db.Racers.Include(r => r.ClassName).Include(r => r.League);
+            var racers = _db.Racers.Include(r => r.ClassName).Include(r => r.League);
             return View(new RacersHomeModel {Filter = string.Empty, Racers = racers});
         }
 
@@ -48,7 +48,7 @@ namespace LapTimes.Areas.ManageRacers.Controllers
 
         public ActionResult Details(int id = 0)
         {
-          Racer racer = db.Racers.Include(r => r.ClassName).Include(r => r.League).Single(r=> r.RacerId == id);
+          Racer racer = _db.Racers.Include(r => r.ClassName).Include(r => r.League).Single(r=> r.RacerId == id);
           
           if (racer == null)
           {
@@ -63,8 +63,8 @@ namespace LapTimes.Areas.ManageRacers.Controllers
 
         public ActionResult Create()
         {
-          ViewBag.ClassId = new SelectList(db.ClassNames.OrderBy(c => c.Name), "ClassId", "Name");
-            ViewBag.LeagueId = new SelectList(db.Leagues, "LeagueId", "Name");
+          ViewBag.ClassId = new SelectList(_db.ClassNames.OrderBy(c => c.Name), "ClassId", "Name");
+            ViewBag.LeagueId = new SelectList(_db.Leagues, "LeagueId", "Name");
             return View();
         }
 
@@ -76,13 +76,13 @@ namespace LapTimes.Areas.ManageRacers.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Racers.Add(racer);
-                db.SaveChanges();
+                _db.Racers.Add(racer);
+                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.ClassId = new SelectList(db.ClassNames.OrderBy(c => c.Name), "ClassId", "Name", racer.ClassId);
-            ViewBag.LeagueId = new SelectList(db.Leagues, "LeagueId", "Name", racer.LeagueId);
+            ViewBag.ClassId = new SelectList(_db.ClassNames.OrderBy(c => c.Name), "ClassId", "Name", racer.ClassId);
+            ViewBag.LeagueId = new SelectList(_db.Leagues, "LeagueId", "Name", racer.LeagueId);
             return View(racer);
         }
 
@@ -91,13 +91,13 @@ namespace LapTimes.Areas.ManageRacers.Controllers
 
         public ActionResult Edit(int id = 0)
         {
-            Racer racer = db.Racers.Find(id);
+            Racer racer = _db.Racers.Find(id);
             if (racer == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.ClassId = new SelectList(db.ClassNames.OrderBy(c => c.Name), "ClassId", "Name", racer.ClassId);
-            ViewBag.LeagueId = new SelectList(db.Leagues, "LeagueId", "Name", racer.LeagueId);
+            ViewBag.ClassId = new SelectList(_db.ClassNames.OrderBy(c => c.Name), "ClassId", "Name", racer.ClassId);
+            ViewBag.LeagueId = new SelectList(_db.Leagues, "LeagueId", "Name", racer.LeagueId);
             return View(racer);
         }
 
@@ -109,12 +109,12 @@ namespace LapTimes.Areas.ManageRacers.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(racer).State = EntityState.Modified;
-                db.SaveChanges();
+                _db.Entry(racer).State = EntityState.Modified;
+                _db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.ClassId = new SelectList(db.ClassNames.OrderBy(c => c.Name), "ClassId", "Name", racer.ClassId);
-            ViewBag.LeagueId = new SelectList(db.Leagues, "LeagueId", "Name", racer.LeagueId);
+            ViewBag.ClassId = new SelectList(_db.ClassNames.OrderBy(c => c.Name), "ClassId", "Name", racer.ClassId);
+            ViewBag.LeagueId = new SelectList(_db.Leagues, "LeagueId", "Name", racer.LeagueId);
             return View(racer);
         }
 
@@ -123,7 +123,7 @@ namespace LapTimes.Areas.ManageRacers.Controllers
 
         public ActionResult Delete(int id = 0)
         {
-          Racer racer = db.Racers.Include(r => r.ClassName).Include(r => r.League).Single(r => r.RacerId == id);
+          Racer racer = _db.Racers.Include(r => r.ClassName).Include(r => r.League).Single(r => r.RacerId == id);
 
           if (racer == null)
           {
@@ -139,9 +139,9 @@ namespace LapTimes.Areas.ManageRacers.Controllers
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id)
         {
-            Racer racer = db.Racers.Find(id);
-            db.Racers.Remove(racer);
-            db.SaveChanges();
+            Racer racer = _db.Racers.Find(id);
+            _db.Racers.Remove(racer);
+            _db.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -169,7 +169,12 @@ namespace LapTimes.Areas.ManageRacers.Controllers
         if (!string.IsNullOrEmpty(q) && limit > 0)
         {
           // TODO: Caching?
-          var racers = _repo.GetRacersStartingWith(q).Where(r => !r.IsWaitingForRace).Take(limit).Select(r => new { id = r.RacerId, label = r.Name, name = r.Name });
+          var racers =
+            _repo.GetRacersStartingWith(q)
+              .Where(r => !r.IsWaitingForRace)
+              .Take(limit).AsEnumerable()
+              .Select(
+                r => new {id = r.RacerId, label = string.Format("{0} - {1}", r.Name, r.ClassName.Name), name = r.Name, classId = r.ClassId.ToString(), leagueId = r.LeagueId.ToString()});
 
           return Json(racers, JsonRequestBehavior.AllowGet);
         }
@@ -180,7 +185,7 @@ namespace LapTimes.Areas.ManageRacers.Controllers
 
       protected override void Dispose(bool disposing)
       {
-          db.Dispose();
+          _db.Dispose();
           base.Dispose(disposing);
       }
     }
