@@ -64,7 +64,8 @@ namespace LapTimes.Models
     public IOrderedQueryable<Racer> GetRacersStartingWith(string query)
     {
       return
-        _context.Racers.Include(r => r.League)
+        _context.Racers
+                .Include(r => r.League)
                 .Include(r => r.ClassName)
                 .Where(r => r.Name.StartsWith(query))
                 .OrderBy(r => r.Name);
