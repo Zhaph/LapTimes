@@ -29,7 +29,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <IncludeIisSettings>true</IncludeIisSettings>
+    <IncludeIisSettings>false</IncludeIisSettings>
     <DeployIisAppPath>LapTimes</DeployIisAppPath>
     <DeployIisAppPhysicalPath>C:\inetpub\wwwroot\LapTimes</DeployIisAppPhysicalPath>
     <PublishDatabases>false</PublishDatabases>
@@ -252,9 +252,7 @@
     <Content Include="Areas\ManageRaces\Views\Shared\EditorTemplates\CurrentDriver.cshtml">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="Content\ausstart.wav" />
-    <Content Include="Content\mw_start.wav" />
-    <Content Include="Content\start.wav" />
+    <Content Include="Content\start.mp3" />
     <Content Include="Content\TheChain.mp3" />
     <Content Include="Content\Font-Awesome\css\font-awesome.css" />
     <Content Include="Content\Font-Awesome\css\font-awesome.min.css" />
@@ -497,6 +495,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\ManageRaces\Views\Shared\DisplayTemplates\CurrentDriver.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\PublishProfiles\LapTimes-IISLocal.pubxml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
