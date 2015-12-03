@@ -20,6 +20,7 @@ namespace LapTimes
       RouteConfig.RegisterRoutes(RouteTable.Routes);
       BundleConfig.RegisterBundles(BundleTable.Bundles);
       AuthConfig.RegisterAuth();
+      DatabaseConfig.SetupDatabase();
     }
   }
 }

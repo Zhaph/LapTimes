@@ -10,6 +10,7 @@ Thumbs.db
 __*
 
 # Ignore "backup" copies because they are almost certainly redundant
+Backup
 *.bak
 *.BAK
 *.back
@@ -27,6 +28,7 @@ Copy of *
 
 # Ignore log, lock, and temp files
 *.log*
+*Log.htm
 *.LOG
 *.lck
 *.LCK

@@ -1,6 +1,8 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LapTimes", "LapTimes\LapTimes.csproj", "{998C41DC-B9D5-4C33-9F67-366225D7972F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LapTimes.Tests", "LapTimes.Tests\LapTimes.Tests.csproj", "{B7D5F6AD-4ACA-4A4A-9D5E-954224D18CA1}"
