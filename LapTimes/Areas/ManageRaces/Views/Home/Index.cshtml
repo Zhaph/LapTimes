@@ -56,7 +56,7 @@
     <ol data-bind="foreach: LaneTimes">
       <li>
         <span class="race-time" data-bind="text: convertTime($data)"></span>
-        <input class="race-time" type="time" step="0.001" data-bind="attr: {'data-val': $index}" />
+        <input class="race-time" type="text" data-bind="attr: {'data-val': $index}" />
         <select class="finished-times" data-bind="attr: {'data-val': $index}, 
                            options: $root.CurrentRace().Drivers(),
                            optionsText: function (item) {  return item.Lane() + '. ' + item.Name() + ' (' + item.Car() + ')';},

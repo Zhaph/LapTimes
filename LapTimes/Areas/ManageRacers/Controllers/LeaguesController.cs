@@ -13,6 +13,16 @@ namespace LapTimes.Areas.ManageRacers.Controllers
     {
         private LapTimesContext db = new LapTimesContext();
 
+        private readonly ILapTimeRepository _repo;
+
+        public LeaguesController(): this(new LapTimeRepository())
+        {}
+
+        public LeaguesController(ILapTimeRepository repo)
+        {
+          _repo = repo;
+        }
+
         //
         // GET: /ManageRacers/Leagues/
 
@@ -50,9 +60,8 @@ namespace LapTimes.Areas.ManageRacers.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Leagues.Add(league);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+              _repo.AddLeague(league);
+              return RedirectToAction("Index");
             }
 
             return View(league);

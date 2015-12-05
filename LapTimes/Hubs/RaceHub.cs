@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Web;
 using LapTimes.Models;
 using Microsoft.AspNet.SignalR;
 
@@ -10,7 +8,7 @@ namespace LapTimes.Hubs
 {
   public class RaceHub: Hub
   {
-    private ILapTimeRepository _repo;
+    private readonly ILapTimeRepository _repo;
 
     public RaceHub(): this(new LapTimeRepository())
     {}
@@ -70,7 +68,14 @@ namespace LapTimes.Hubs
 
       for (int i = 0; i < raceTimes.Length; i++)
       {
-        var raceTime = TimeSpan.Parse(raceTimes[i].RaceTime);
+        string timeString = raceTimes[i].RaceTime;
+
+        while (timeString.ToCharArray().Count(c => c == ':') < 2)
+        {
+          timeString = "00:" + timeString;
+        }
+
+        var raceTime = TimeSpan.Parse(timeString);
         newRaceTimes[i] = new RaceTimes{ RacerId = raceTimes[i].RacerId, RaceTime = (int)Math.Round(raceTime.TotalMilliseconds)};
       }
 

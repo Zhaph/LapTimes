@@ -121,9 +121,10 @@ namespace LapTimes.Models
       drivers.Collection(e => e.Drivers).Query().OrderBy(d => d.Lane).Include(d => d.Car).Include(d => d.Racer).Load();
     }
 
-    public void AddLeague(League league)
+    public int AddLeague(League league)
     {
-      throw new NotImplementedException();
+      _context.Leagues.Add(league);
+      return Save();
     }
 
     public void GetClass(string name)

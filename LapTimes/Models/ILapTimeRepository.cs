@@ -9,7 +9,7 @@ namespace LapTimes.Models
 
     // Leagues
     List<List<Racer>> GetCurrentLeaderBoards();
-    void AddLeague(League league);
+    int AddLeague(League league);
 
     // ClassNames
     void GetClass(string name);
