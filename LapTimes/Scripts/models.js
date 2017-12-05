@@ -81,17 +81,17 @@ function Racer(data) {
   };
 
   self.FormattedName = function () {
-    return self.Name() + " " + self.Class();
+      return self.Name();
   };
 }
 
 function convertTime(time) {
   function addZ(n) {
-    return (n < 10 ? '0' : '') + n;
+    return (n < 10 ? "0" : "") + n;
   }
 
   function addZZ(n) {
-    return (n < 100 ? '0' + addZ(n) : n);
+    return (n < 100 ? "0" + addZ(n) : n);
   }
 
   var ms = time % 1000;
@@ -100,7 +100,7 @@ function convertTime(time) {
   time = (time - secs) / 60;
   var mins = time % 60;
 
-  return addZ(mins) + ':' + addZ(secs) + '.' + addZZ(ms);
+  return addZ(mins) + ":" + addZ(secs) + "." + addZZ(ms);
 }
 
 var clsStopwatch = function () {
